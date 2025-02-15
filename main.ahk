@@ -12,7 +12,7 @@ WinGetPos ,,&rw,&rh,"Roblox"
 rwh := rw+rh
 
 ; Screen check
-if !(wh = 2134){
+if (! wh = 2134){
     MsgBox "解像度を1366x768にセットしてください", "Error", 16
     ExitApp -4949
 }
@@ -25,8 +25,9 @@ mn.Show("Center")
 
 Setup() {
     SetDefaultMouseSpeed 0
+    SetKeyDelay 0, 0
     WinActivate "Roblox"
-    if !() {
+    if (! %rwh% = 2134) {
         send "{F11}"
     }
 }
