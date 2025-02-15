@@ -3,13 +3,13 @@
 #NoTrayIcon
 
 ; Value
-wh := A_ScreenHeight+A_ScreenWidth
-pot := 0
-ctl := 0
-rw := 0
-rh := 0
+wh := Integer(A_ScreenHeight + A_ScreenWidth)
+pot := Integer(0)
+ctl := Integer(0)
+rw := Integer(0)
+rh := Integer(0)
 WinGetPos ,,&rw,&rh,"Roblox"
-rwh := Integer(rw+rh)
+rwh := Integer(rw + rh)
 
 ; Screen check
 if (! wh = 2134){
@@ -21,47 +21,28 @@ if (! rwh = wh){
     Send "{F11}"
 }
 
+; Main GUI
 mn := Gui()
 mn.Add("Text",, "Select Potion:")
 mn.Add("DropDownList", "vpot Choose1", ["", "HP1", "HP2", "Warp"])
-mn.Add("Checkbox", "vctl", "Use Controllers?")
+mn.Add("Checkbox", "vctl", "Use Randomizers?")
 mn.Show("Center")
 
-Setup() {
-    SetDefaultMouseSpeed 0
-    SetKeyDelay 0, 0
-    WinActivate "Roblox"
+; Macro Main Part
+KeyWait "F1", "D"
+Setup: ; Activate Roblox, Set MouseSpeed & KeyDelay to 0
+SetDefaultMouseSpeed 0
+SetKeyDelay 0, 0
+WinActivate "Roblox"
+MouseMove 810, 300
+Send "F"
+Sleep 100
+Send "{WheelUp Down}"
+Sleep 500
+if (pot = "HP1"){
+    
 }
 
-HP1() {
-    MsgBox "HP1", "Info", 64
-}
-
-HP2() {
-    MsgBox "HP2", "Info", 64
-}
-
-Warp() {
-    MsgBox "Warp", "Info", 64
-}
-
-itemctl() { 
-    MsgBox "Enabled item", "Info", 64
-}
-
-F1::
-{
-    Setup()
-    if (pot = HP1) {
-        HP1()
-    }
-    else If (pot = HP2) {
-        HP2()
-    }
-    else If (pot = Warp) {
-        Warp()
-    }
-}
 F2::
 {
     ExitApp 0
