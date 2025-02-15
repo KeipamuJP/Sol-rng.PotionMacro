@@ -30,6 +30,7 @@ mn.Show("Center")
 
 ; Macro Main Part
 KeyWait "F1", "D"
+mn.Submit(true)
 if (pot = ""){
     goto('rndm')
 }
