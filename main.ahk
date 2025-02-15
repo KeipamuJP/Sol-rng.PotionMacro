@@ -4,6 +4,11 @@
 ; Value
 wh := A_ScreenHeight+A_ScreenWidth
 pot := 0
+ctl := 0
+rw := 0
+rh := 0
+WinGetPos ,,&rw,&rh
+rwh := rw+rh
 
 ; Screen check
 if (not wh = 2134){
@@ -14,27 +19,31 @@ if (not wh = 2134){
 mn := Gui()
 mn.Add("Text",, "Select Potion:")
 mn.Add("DropDownList", "vpot Choose1", ["", "HP1", "HP2", "Warp"])
+mn.Add("Checkbox", "vctl")
 mn.Show("Center")
 
 Setup() {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
+    if (not rwh = wh) {
+        send "{F11}"
+    }
 }
 
 HP1() {
-    MouseMove 0, 0
+    MsgBox "HP1", "Info", 16
 }
 
 HP2() {
-
+    MsgBox "HP2", "Info", 16
 }
 
 Warp() {
-
+    MsgBox "Warp", "Info", 16
 }
 
-itemctl() {
-    
+itemctl() { 
+    MsgBox "Enabled item", "Info", 16
 }
 
 F1::
