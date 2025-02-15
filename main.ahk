@@ -36,7 +36,7 @@ SetKeyDelay 0, 0
 WinActivate "Roblox"
 MouseMove 810, 300
 Sleep 100
-Send "F"
+Send "F" ; Auto Add Reset
 Sleep 100
 loop 5{
     Send "{WheelUp}"
@@ -48,7 +48,7 @@ MouseMove 500, 410
 Sleep 100
 Send "{Click}"
 Sleep 100
-if (pot = "HP1"){
+if (pot = "HP1"){ ; Heavenly Potion I
     MouseMove 810, 375
     Sleep 100
     Send "{Click}"
@@ -57,7 +57,7 @@ if (pot = "HP1"){
     Send "{Click}"
     Sleep 100
 }
-else If (pot = "HP2"){
+if (pot = "HP2"){ ; Heavenly Potion II
     MouseMove 810, 450
     Sleep 100
     Send "{Click}"
@@ -66,7 +66,7 @@ else If (pot = "HP2"){
     Send "{Click}"
     Sleep 100
 }
-else If (pot = "Warp"){
+if (pot = "Warp"){ ; Warp Potion
     MouseMove 810, 525
     Sleep 100
     Send "{Click}"
@@ -74,6 +74,20 @@ else If (pot = "Warp"){
     Sleep 100
     Send "{Click}"
     Sleep 100
+}
+loop { ; Crafting Loop
+    if (pot = "HP1"){
+
+    }
+    if (pot = "HP2"){
+
+    }
+    if (pot = "Warp"){
+
+    }
+    if (ctl = 1){ ; Use Randomizers
+
+    }
 }
 
 F2::
