@@ -24,3 +24,23 @@ Setup() {
 HP1() {
     MouseMove 0, 0
 }
+
+HP2() {
+
+}
+
+Warp() {
+    
+}
+
+F1::
+Setup()
+if (pot = HP1) {
+    HP1()
+}
+else If (pot = HP2) {
+    HP2()
+}
+else If (pot = Warp) {
+    Warp()
+}
