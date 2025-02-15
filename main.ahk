@@ -1,7 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 #NoTrayIcon
-
 ; Value
 wh := A_ScreenHeight+A_ScreenWidth
 pot := 0
@@ -27,7 +26,7 @@ Setup() {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
     if (not rwh = &wh) {
-        send "{F11}"
+        send "{{F11}}"
     }
 }
 
