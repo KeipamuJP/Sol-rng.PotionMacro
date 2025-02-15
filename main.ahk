@@ -4,7 +4,7 @@
 
 ; Value
 wh := Integer(A_ScreenHeight + A_ScreenWidth)
-pot := Integer(0)
+pot := String("")
 ctl := Integer(0)
 rw := Integer(0)
 rh := Integer(0)
