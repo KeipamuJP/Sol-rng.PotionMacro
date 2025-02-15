@@ -7,7 +7,7 @@ pot := 0
 ctl := 0
 rw := 0
 rh := 0
-WinGetPos ,,&rw,&rh
+WinGetPos ,,&rw,&rh,"Roblox"
 rwh := rw+rh
 
 ; Screen check
