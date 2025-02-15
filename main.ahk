@@ -9,12 +9,16 @@ ctl := 0
 rw := 0
 rh := 0
 WinGetPos ,,&rw,&rh,"Roblox"
-rwh := rw+rh
+rwh := Integer(rw+rh)
 
 ; Screen check
 if (! wh = 2134){
     MsgBox "解像度を1366x768にセットしてください", "Error", 16
     ExitApp -4949
+}
+if (! rwh = wh){
+    WinActivate "Roblox"
+    Send "{F11}"
 }
 
 mn := Gui()
@@ -27,9 +31,6 @@ Setup() {
     SetDefaultMouseSpeed 0
     SetKeyDelay 0, 0
     WinActivate "Roblox"
-    if (! "%rwh%" = 2134) {
-        send "{F11}"
-    }
 }
 
 HP1() {
