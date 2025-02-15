@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
+#NoTrayIcon
+#
 
 ; Value
 wh := A_ScreenHeight+A_ScreenWidth
@@ -25,9 +27,7 @@ mn.Show("Center")
 Setup() {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
-    if !(rwh = %wh%) {
-        send "{F11}"
-    }
+    
 }
 
 HP1() {
