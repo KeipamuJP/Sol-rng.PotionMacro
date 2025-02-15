@@ -8,6 +8,7 @@ pot := 0
 ctl := 0
 rw := 0
 rh := 0
+rwh := 0
 WinGetPos ,,&rw,&rh,"Roblox"
 rwh := rw+rh
 
