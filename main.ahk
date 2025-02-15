@@ -142,5 +142,5 @@ F2::
 }
 F6::
 {
-    MsgBox "wh:" wh "rwh:" rwh, "Info", 64
+    MsgBox "DDL:" pot, "Info", 64
 }
