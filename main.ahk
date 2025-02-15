@@ -27,7 +27,7 @@ Setup() {
     SetDefaultMouseSpeed 0
     SetKeyDelay 0, 0
     WinActivate "Roblox"
-    if (! %rwh% = 2134) {
+    if (! "%rwh%" = 2134) {
         send "{F11}"
     }
 }
