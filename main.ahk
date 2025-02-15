@@ -29,12 +29,11 @@ mn.Add("Checkbox", "vctl", "Use Randomizers?")
 mn.Show("Center")
 
 ; Macro Main Part
-KeyWait "F1", "D"
+Setup: ; Activate Roblox, Set MouseSpeed & KeyDelay to 0
 mn.Submit(true)
 if (pot = ""){
     goto('rndm')
 }
-Setup: ; Activate Roblox, Set MouseSpeed & KeyDelay to 0
 SetDefaultMouseSpeed 0
 SetKeyDelay 0, 0
 WinActivate "Roblox"
@@ -137,6 +136,10 @@ loop { ; Crafting Loop
     }
 }
 
+F1::    
+{
+    goto('Setup')
+}
 F2::
 {
     ExitApp 0
