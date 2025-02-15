@@ -30,6 +30,9 @@ mn.Show("Center")
 
 ; Macro Main Part
 KeyWait "F1", "D"
+if (pot = ""){
+    goto('rndm')
+}
 Setup: ; Activate Roblox, Set MouseSpeed & KeyDelay to 0
 SetDefaultMouseSpeed 0
 SetKeyDelay 0, 0
@@ -37,6 +40,8 @@ WinActivate "Roblox"
 MouseMove 810, 300
 Sleep 100
 Send "F" ; Auto Add Reset
+Sleep 100
+Send "{Click}"
 Sleep 100
 loop 5{
     Send "{WheelUp}"
@@ -85,8 +90,49 @@ loop { ; Crafting Loop
     if (pot = "Warp"){
 
     }
+    rndm:
     if (ctl = 1){ ; Use Randomizers
-
+        MouseMove 32, 385
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        MouseMove 900, 240
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        MouseMove 785, 260
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        SendText "biome randomizer"
+        Sleep 100
+        MouseMove 600, 315
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        MouseMove 485, 415
+        Sleep 100
+        loop 2 {
+            Send "{Click}"
+            Sleep 100
+        }
+        MouseMove 785, 260
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        SendText "strange controller"
+        Sleep 100
+        MouseMove 600, 315
+        Sleep 100
+        Send "{Click}"
+        Sleep 100
+        MouseMove 485, 415
+        Sleep 100
+        loop 2 {
+            Send "{Click}"
+            Sleep 100
+        }
+        Send "F"
     }
 }
 
