@@ -59,3 +59,11 @@ F1::
         Warp()
     }
 }
+F2::
+{
+    ExitApp 0
+}
+F6::
+{
+    MsgBox "wh:" wh "rwh:" rwh, "Info", 16
+}
