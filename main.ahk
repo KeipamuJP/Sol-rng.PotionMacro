@@ -49,7 +49,7 @@ itemctl() {
 
 F1::
 {
-    Setup(rwh, wh)
+    Setup(%rwh%, %wh%)
     if (pot = HP1) {
         HP1()
     }
