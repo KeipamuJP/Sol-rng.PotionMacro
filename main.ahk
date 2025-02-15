@@ -94,45 +94,45 @@ loop { ; Crafting Loop
     if (ctl = 1){ ; Use Randomizers
         MouseMove 32, 385
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; strage button
         Sleep 100
         MouseMove 900, 240
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; items button
         Sleep 100
         MouseMove 785, 260
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; search box
         Sleep 100
-        SendText "biome randomizer"
+        SendText "biome randomizer" ; item name
         Sleep 100
         MouseMove 600, 315
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; item click
         Sleep 100
         MouseMove 485, 415
         Sleep 100
         loop 2 {
-            Send "{Click}"
+            Send "{Click}" ; use click
             Sleep 100
         }
         MouseMove 785, 260
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; search box
         Sleep 100
-        SendText "strange controller"
+        SendText "strange controller" ; item name
         Sleep 100
         MouseMove 600, 315
         Sleep 100
-        Send "{Click}"
+        Send "{Click}" ; item click
         Sleep 100
         MouseMove 485, 415
         Sleep 100
         loop 2 {
-            Send "{Click}"
+            Send "{Click}" ; use click
             Sleep 100
         }
-        Send "F"
+        Send "F" ; Cauldron
     }
 }
 
