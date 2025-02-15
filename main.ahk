@@ -8,6 +8,7 @@ pot := String("")
 ctl := Integer(0)
 rw := Integer(0)
 rh := Integer(0)
+test := String("")
 WinGetPos ,,&rw,&rh,"Roblox"
 rwh := Integer(rw + rh)
 
@@ -30,7 +31,6 @@ mn.Show("Center")
 
 ; Macro Main Part
 Setup: ; Activate Roblox, Set MouseSpeed & KeyDelay to 0
-mn.Submit(true)
 if (pot = ""){
     goto('rndm')
 }
@@ -138,7 +138,7 @@ loop { ; Crafting Loop
 
 F1::    
 {
-    goto('Setup')
+    
 }
 F2::
 {
@@ -146,5 +146,6 @@ F2::
 }
 F6::
 {
-    MsgBox "DDL:" pot, "Info", 64
+    test := mn.Submit(false)
+    MsgBox "DDL:" test, "Info", 64
 }
