@@ -23,10 +23,10 @@ mn.Add("DropDownList", "vpot Choose1", ["", "HP1", "HP2", "Warp"])
 mn.Add("Checkbox", "vctl", "Use Controllers?")
 mn.Show("Center")
 
-Setup() {
+Setup(wh1, wh2) {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
-    if !(%rwh% = %wh%) {
+    if !(%wh1% = %wh2%) {
         send "{F11}"
     }
 }
@@ -49,7 +49,7 @@ itemctl() {
 
 F1::
 {
-    Setup()
+    Setup(rwh, wh)
     if (pot = HP1) {
         HP1()
     }
