@@ -12,8 +12,9 @@ if (not wh = 2134){
 }
 
 mn := Gui()
+mn.Add("Text",, "Select Potion:")
 mn.Add("DropDownList", "vpot Choose1", ["", "HP1", "HP2", "Warp"])
-
+mn.Show("Center")
 
 Setup() {
     SetDefaultMouseSpeed 0
