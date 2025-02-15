@@ -30,17 +30,19 @@ HP2() {
 }
 
 Warp() {
-    
+
 }
 
 F1::
-Setup()
-if (pot = HP1) {
-    HP1()
-}
-else If (pot = HP2) {
-    HP2()
-}
-else If (pot = Warp) {
-    Warp()
+{
+    Setup()
+    if (pot = HP1) {
+        HP1()
+    }
+    else If (pot = HP2) {
+        HP2()
+    }
+    else If (pot = Warp) {
+        Warp()
+    }
 }
