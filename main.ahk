@@ -27,7 +27,7 @@ mn.Show("Center")
 Setup(twh) {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
-    if (not rwh = %twh%) {
+    if (not rwh = 2134) {
         send "{F11}"
     }
 }
