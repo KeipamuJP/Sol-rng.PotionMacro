@@ -11,16 +11,9 @@ rh := Integer(0)
 test := String("")
 WinGetPos ,,&rw,&rh,"Roblox"
 rwh := Integer(rw + rh)
-guis := main_gui.New()
 
 ; classes
-class main_gui
-{
-    Gui := ""
-    __New() {
-        this.Gui := Gui.new()
-    }
-}
+
 
 ; Screen check
 if (! wh = 2134){
