@@ -19,7 +19,7 @@ if (not wh = 2134){
 mn := Gui()
 mn.Add("Text",, "Select Potion:")
 mn.Add("DropDownList", "vpot Choose1", ["", "HP1", "HP2", "Warp"])
-mn.Add("Checkbox", "vctl")
+mn.Add("Checkbox", "vctl", "Use Controllers?")
 mn.Show("Center")
 
 Setup() {
