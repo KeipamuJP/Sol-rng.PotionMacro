@@ -12,6 +12,7 @@ rwh := rw+rh
 
 ; Screen check
 if (not wh = 2134){
+if (not wh = 2134){
     MsgBox "解像度を1366x768にセットしてください", "Error", 16
     ExitApp -4949
 }
@@ -27,6 +28,9 @@ Setup() {
     WinActivate "Roblox"
     if (not rwh = &wh) {
         send "{{F11}}"
+    }
+    if (not rwh = &wh) {
+        send "{F11}"
     }
 }
 
