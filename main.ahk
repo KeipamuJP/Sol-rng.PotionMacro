@@ -80,6 +80,7 @@ if (pot = "Warp"){ ; Warp Potion
     Send "{Click}"
     Sleep 100
 }
+rndm:
 loop { ; Crafting Loop
     if (pot = "HP1"){
 
@@ -90,7 +91,6 @@ loop { ; Crafting Loop
     if (pot = "Warp"){
 
     }
-    rndm:
     if (ctl = 1){ ; Use Randomizers
         MouseMove 32, 385
         Sleep 100
