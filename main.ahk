@@ -1,6 +1,7 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 #NoTrayIcon
+
 ; Value
 wh := A_ScreenHeight+A_ScreenWidth
 pot := 0
@@ -11,7 +12,6 @@ WinGetPos ,,&rw,&rh,"Roblox"
 rwh := rw+rh
 
 ; Screen check
-if (not wh = 2134){
 if (not wh = 2134){
     MsgBox "解像度を1366x768にセットしてください", "Error", 16
     ExitApp -4949
@@ -26,9 +26,6 @@ mn.Show("Center")
 Setup() {
     SetDefaultMouseSpeed 0
     WinActivate "Roblox"
-    if (not rwh = &wh) {
-        send "{{F11}}"
-    }
     if (not rwh = &wh) {
         send "{F11}"
     }
