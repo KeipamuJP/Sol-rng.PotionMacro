@@ -35,12 +35,45 @@ SetDefaultMouseSpeed 0
 SetKeyDelay 0, 0
 WinActivate "Roblox"
 MouseMove 810, 300
+Sleep 100
 Send "F"
 Sleep 100
-Send "{WheelUp Down}"
-Sleep 500
+loop 5{
+    Send "{WheelUp}"
+    Sleep 200
+}
+Send "{Click}"
+Sleep 100
+MouseMove 500, 410
+Sleep 100
+Send "{Click}"
+Sleep 100
 if (pot = "HP1"){
-    
+    MouseMove 810, 375
+    Sleep 100
+    Send "{Click}"
+    MouseMove 500, 410
+    Sleep 100
+    Send "{Click}"
+    Sleep 100
+}
+else If (pot = "HP2"){
+    MouseMove 810, 450
+    Sleep 100
+    Send "{Click}"
+    MouseMove 500, 410
+    Sleep 100
+    Send "{Click}"
+    Sleep 100
+}
+else If (pot = "Warp"){
+    MouseMove 810, 525
+    Sleep 100
+    Send "{Click}"
+    MouseMove 500, 410
+    Sleep 100
+    Send "{Click}"
+    Sleep 100
 }
 
 F2::
