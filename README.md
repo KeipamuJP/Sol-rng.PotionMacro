@@ -2,7 +2,7 @@
 こちらのマクロはRobloxのSol's RNGというゲームのポーション自動制作マクロとなっております
 
 ## 動作環境
-- Windows 10以上
+- Windows 10/11
 - [AutoHotKey](https://www.autohotkey.com/) v2.0
 
 ## 使用方法
