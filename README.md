@@ -3,11 +3,9 @@
 
 ## 動作環境
 - Windows 10/11
-- [AutoHotKey](https://www.autohotkey.com/) v2.0
 
 ## 使用方法
-[AutoHotKey](https://www.autohotkey.com/) v2.0をダウンロード&インストールし、
-フォルダ内にあるmain.ahkを実行するとマクロを起動できます
+pot-macro.exeを実行するとウィンドウが起動します。
 
 起動したウィンドウで作成するポーションを選択し、
 `F1`を入力するとポーションの自動作成がスタートします
