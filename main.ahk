@@ -3,17 +3,19 @@
 #NoTrayIcon
 
 ; Value
-wh := Integer(A_ScreenHeight + A_ScreenWidth)
-pot := String("")
-ctl := Integer(0)
-rw := Integer(0)
-rh := Integer(0)
-test := String("")
-WinGetPos ,,&rw,&rh,"Roblox"
-rwh := Integer(rw + rh)
+global wh := Integer(A_ScreenHeight + A_ScreenWidth)
+global pot := ""
+global ctl := Integer(0)
+global rw := Integer(0)
+global rh := Integer(0)
+global test := ""
+global WinGetPos ,,&rw,&rh,"Roblox"
+global rwh := Integer(rw + rh)
 
 ; classes
+global class main_gui() {
 
+}
 
 ; Screen check
 if (! wh = 2134){
@@ -29,6 +31,7 @@ if (! rwh = wh){
 ; Macro Main Part
 F1::    
 {
+    global
     ; Setup part Submit DDL, Activate Roblox, Set MouseSpeed & KeyDelay to 0
     SetDefaultMouseSpeed 0
     SetKeyDelay 0, 0
@@ -152,7 +155,3 @@ F2::
     }
 }
 ; TESTING PLACE!!
-F6::
-{
-    
-}
