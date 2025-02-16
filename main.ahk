@@ -10,7 +10,14 @@ global rw := Integer(0)
 global rh := Integer(0)
 global test := ""
 global spd := Integer(2)
-WinGetPos ,,&rw,&rh,"Roblox"
+if WinExist("Roblox") {
+    WinGetPos ,,&rw,&rh,"Roblox"
+} 
+else
+{
+    MsgBox "Robloxを起動してください。", "ERROR 404", "OK IconX"
+    ExitApp -4949
+}
 global rwh := Integer(rw + rh)
 ; ===== ^^^^^^ =====
 
