@@ -167,7 +167,7 @@ item() {
 ; ===== classes end =====
 
 ; Screen check
-if (! wh = 2134){
+if (not wh = 2134){
     MsgBox "解像度を1366x768にセットしてください", "Error", "Iconi"
     ExitApp -4949
 }
