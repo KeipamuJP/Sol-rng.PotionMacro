@@ -13,8 +13,21 @@ global WinGetPos ,,&rw,&rh,"Roblox"
 global rwh := Integer(rw + rh)
 
 ; classes
-global class main_gui() {
+class main_gui() {
+    global mn := Gui()
+    mn.Add("Text", "Select Potion:")
+    mn.Add("DDL", "vpotion", ["HP1", "HP2", "Warp"])
+    mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
+    mn.Show("Center")
+}
 
+class setup() {
+    global
+    data := mn.Submit(true)
+    pot := data.potion
+    ctl := data.randomizer
+    SetKeyDelay 0, 0
+    SetDefaultMouseSpeed 0
 }
 
 ; Screen check
@@ -27,121 +40,11 @@ if (! rwh = wh){
     Send "{F11}"
 }
 
-
 ; Macro Main Part
 F1::    
 {
     global
-    ; Setup part Submit DDL, Activate Roblox, Set MouseSpeed & KeyDelay to 0
-    SetDefaultMouseSpeed 0
-    SetKeyDelay 0, 0
-    WinActivate "Roblox"
-    MouseMove 810, 300
-    Sleep 100
-    ; Auto Add Reset
-    Send "F" 
-    Sleep 100
-    Send "{Click}"
-    Sleep 100
-    loop 5{
-        Send "{WheelUp}"
-        Sleep 200
-    }
-    Send "{Click}"
-    Sleep 100
-    MouseMove 500, 410
-    Sleep 100
-    Send "{Click}"
-    Sleep 100
-    ; Auto Add Heavenly Potion I
-    if (pot = "HP1"){
-        MouseMove 810, 375
-        Sleep 100
-        Send "{Click}"
-        MouseMove 500, 410
-        Sleep 100
-        Send "{Click}"
-        Sleep 100
-    }
-    ; Auto Add Heavenly Potion II
-    if (pot = "HP2"){
-        MouseMove 810, 450
-        Sleep 100
-        Send "{Click}"
-        MouseMove 500, 410
-        Sleep 100
-        Send "{Click}"
-        Sleep 100
-    }
-    ; Auto Add Warp Potion
-    if (pot = "Warp"){
-        MouseMove 810, 525
-        Sleep 100
-        Send "{Click}"
-        MouseMove 500, 410
-        Sleep 100
-        Send "{Click}"
-        Sleep 100
-    }
-    ; Crafting Loop
-    loop {
-        ; Craft Heavenly Potion I
-        if (pot = "HP1"){
     
-        }
-        ; Craft Heavenly Potion II
-        if (pot = "HP2"){
-    
-        }
-        ; Craft Warp Potion
-        if (pot = "Warp"){
-    
-        }
-        ; Use Randomizers
-        if (ctl = 1){
-            MouseMove 32, 385
-            Sleep 100
-            Send "{Click}" ; strage button
-            Sleep 100
-            MouseMove 900, 240
-            Sleep 100
-            Send "{Click}" ; items button
-            Sleep 100
-            MouseMove 785, 260
-            Sleep 100
-            Send "{Click}" ; search box
-            Sleep 100
-            SendText "biome randomizer" ; item name
-            Sleep 100
-            MouseMove 600, 315
-            Sleep 100
-            Send "{Click}" ; item click
-            Sleep 100
-            MouseMove 485, 415
-            Sleep 100
-            loop 2 {
-                Send "{Click}" ; use click
-                Sleep 100
-            }
-            MouseMove 785, 260
-            Sleep 100
-            Send "{Click}" ; search box
-            Sleep 100
-            SendText "strange controller" ; item name
-            Sleep 100
-            MouseMove 600, 315
-            Sleep 100
-            Send "{Click}" ; item click
-            Sleep 100
-            MouseMove 485, 415
-            Sleep 100
-            loop 2 {
-                Send "{Click}" ; use click
-                Sleep 100
-            }
-            Send "F" ; Cauldron
-        }
-    }
 }
 ; Stopping Macro
 F2::
@@ -155,3 +58,9 @@ F2::
     }
 }
 ; TESTING PLACE!!
+F6::
+{
+    global
+    setup()
+    MsgBox "Selected: " pot "Randomizer: " ctl,, 64
+}
