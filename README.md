@@ -28,7 +28,7 @@ Running pot-macro.exe will launch a window.
 起動したウィンドウでクラフトするポーションとオプションを選択し、
 <br>
 In the window that launches, select the potion and options to craft,
-<br>
+<br>    
 <br>
 `F1`を入力するとポーションの自動クラフトがスタートします。
 <br>
