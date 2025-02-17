@@ -173,11 +173,11 @@ item() {
     mmc(32, 385, spd, "no")
     mmc(900, 235, spd, "no")
     mmc(785, 260, spd, "no")
-    SendText "Biome Randomizer"
+    SendText "Strange Controller"
     mmc(600, 315, spd, "no")
     mmc(485, 410, spd, "yes")
     mmc(785, 260, spd, "no")
-    SendText "Strange Controller"
+    SendText "Biome Randomizer"
     mmc(600, 315, spd, "no")
     mmc(485, 410, spd, "yes")
 }
