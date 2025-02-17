@@ -49,6 +49,7 @@ setup() {
         Send "{F11}"
     }
     inputsend("F")
+    mmc(810, 300, spd, "yes")
     ms(810, 300, spd, 5, "up")
     mmc(810, 300, spd, "no")
     mmc(500, 410, spd, "no")
@@ -104,9 +105,7 @@ ms(x, y, spd, lp, ud) {
     py2 := Integer(A_ScreenHeight * py1)
     MouseMove px2, py2, spd
     Sleep 100
-    loop 2{
-        Send "{Click}"
-    } ; Scroll Up
+    ; Scroll Up
     if (ud = "up") {
         loop lp {
             Send "{WheelUp}"
@@ -131,7 +130,7 @@ ms(x, y, spd, lp, ud) {
 ; Crafting Heavenly Potion I
 hp1() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "100"
@@ -143,7 +142,7 @@ hp1() {
 ; Crafting Heavenly Potion II
 hp2() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "2"
@@ -158,7 +157,7 @@ hp2() {
 ; Crafting Warp Potion
 warp() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(570, 450, spd, 2, "up")
     mmc(570,450, spd, "no")
     ms(510, 545, spd, 2, "down")
@@ -179,7 +178,7 @@ item() {
     mmc(785, 260, spd, "no")
     SendText "Biome Randomizer"
     mmc(600, 315, spd, "no")
-    mmc(485, 410, spd, "yes")
+    mmc(485, 410, spd, "no")
 }
 ; ===== ^^^^^^^^^^^^^^ =====
 
