@@ -131,7 +131,7 @@ ms(x, y, spd, lp, ud) {
 ; Crafting Heavenly Potion I
 hp1() {
     global
-    mmc(410, 410, spd, "no")
+    mmc(410, 410, 5, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "100"
@@ -143,14 +143,14 @@ hp1() {
 ; Crafting Heavenly Potion II
 hp2() {
     global
-    mmc(410, 410, spd, "no")
+    mmc(410, 410, 5, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "2"
     mmc(570, 450, spd, "no")
     mmc(510, 485, spd, "yes")
     SendText "125"
-    mmc(575, 485, spd, "no")
+    mmc(575, 485, 5, "no")
     ms(570, 545, spd, 2, "down")
     mmc(570, 545, spd, "no")
 }
@@ -158,7 +158,7 @@ hp2() {
 ; Crafting Warp Potion
 warp() {
     global
-    mmc(410, 410, spd, "no")
+    mmc(410, 410, 5, "no")
     ms(570, 450, spd, 2, "up")
     mmc(570,450, spd, "no")
     ms(510, 545, spd, 2, "down")
