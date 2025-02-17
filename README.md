@@ -15,9 +15,9 @@ This macro is an automatic potion crafting macro for the game Sol's RNG from Rob
 https://github.com/KeipamuJP/Sol-rng.PotionMacro/releases
 
 ## 使用方法 / How to use
-**このマクロは16:9のディスプレイでしか動作しません。ご了承ください。**
+**このマクロは16:9のディスプレイでしか動作確認をしておりません。その他の画面比率(4:3や16:10など)は非推奨です。**
 <br>
-**This macro will only work on 16:9 displays. Please be aware of this.**
+**This macro has only been tested on 16:9 displays. Other screen ratios (4:3, 16:10, etc.) are NOT RECOMMENDED.**
 <br>
 <br>
 pot-macro.exeを実行するとウィンドウが起動します。
