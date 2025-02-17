@@ -3,7 +3,11 @@
 #NoTrayIcon
 
 ; ===== Values =====
-global wh := Integer(A_ScreenHeight + A_ScreenWidth)
+global pw := A_ScreenWidth
+global ph := A_ScreenHeight
+global tx := Integer(0)
+global ty := Integer(0)
+global wh := Integer(pw + ph)
 global pot := ""
 global ctl := Integer(0)
 global rw := Integer(0)
@@ -15,7 +19,7 @@ if WinExist("Roblox") {
 } 
 else
 {
-    MsgBox "Robloxを起動してください。", "ERROR 404", "OK IconX"
+    MsgBox "Robloxを起動してください。 / Launch Roblox.", "ERROR 404", "OK IconX"
     ExitApp -4949
 }
 global rwh := Integer(rw + rh)
@@ -73,7 +77,11 @@ inputsend(text) {
 
 ; Mousemove and Mouseclick
 mmc(x, y, spd, dc) {
-    MouseMove x, y, spd
+    px1 := (x / 1366) 
+    py1 := (y / 768)
+    px2 := Integer(A_ScreenWidth * px1)
+    py2 := Integer(A_ScreenHeight * py1)
+    MouseMove px2, py2, spd
     Sleep 100
     if (dc = "yes") {
         loop 2 {
@@ -90,7 +98,11 @@ mmc(x, y, spd, dc) {
 
 ; Scroll class
 ms(x, y, spd, lp, ud) {
-    MouseMove x, y, spd
+    px1 := (x / 1366) 
+    py1 := (y / 768)
+    px2 := Integer(A_ScreenWidth * px1)
+    py2 := Integer(A_ScreenHeight * py1)
+    MouseMove px2, py2, spd
     Sleep 100
     loop 2{
         Send "{Click}"
@@ -173,12 +185,6 @@ item() {
 
 ; ===== classes end =====
 
-; Screen check
-if (not wh = 2134){
-    MsgBox "解像度を1366x768にセットしてください", "Error", "Iconi"
-    ExitApp -4949
-}
-
 ; Create UI
 main_gui()
 
@@ -206,7 +212,7 @@ F1::
 ; Stopping Macro
 F2::
 {
-    Result := MsgBox("マクロを終了しますか？",, "YesNo")
+    Result := MsgBox("マクロを終了しますか？ / Do you want to exit the macro?",, "YesNo")
     if (Result = "Yes"){
         ExitApp 0
     }
@@ -217,9 +223,5 @@ F2::
 ; TESTING PLACE!!
 F6::
 {
-    global
-    data := mn.Submit(false)
-    pot := data.potion
-    ctl := data.randomizer
-    MsgBox "Selected: " pot " Randomizer: " ctl " rwh: " rwh " wh: " wh ,, "iconi"
+
 }
