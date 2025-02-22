@@ -48,7 +48,7 @@ setup() {
     if (not rwh = wh){
         Send "{F11}"
     }
-    inputsend("F")
+    inputsend("f")
     mmc(810, 300, spd, "yes")
     ms(810, 300, spd, 5, "up")
     mmc(810, 300, spd, "no")
@@ -191,18 +191,20 @@ main_gui()
 F1::    
 {
     global
-    setup()
+    if (pot = "HP1" or pot = "HP2" or pot = "Warp") {
+        setup()
+    }
     loop {
         if (pot = "HP1") {
-            inputsend("F")
+            inputsend("f")
             hp1()
         }
         else if (pot = "HP2") {
-            inputsend("F")
+            inputsend("f")
             hp2()
         }
         else if (pot = "Warp") {
-            inputsend("F")
+            inputsend("f")
             warp()
         }
         if (ctl = 1 or pot = "Only Randomizer") {
