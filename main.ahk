@@ -31,7 +31,7 @@ global rwh := Integer(rw + rh)
 main_gui() {
     global mn := Gui()
     mn.Add("Text",, "Select Potion:")
-    mn.Add("DDL", "vpotion Choose1", ["HP1", "HP2", "Warp"])
+    mn.Add("DDL", "vpotion Choose1", ["HP1", "HP2", "Warp", "Only Randomizer"])
     mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
     mn.Show("Center")
 }
@@ -194,17 +194,19 @@ F1::
     setup()
     loop {
         if (pot = "HP1") {
+            inputsend("F")
             hp1()
         }
         else if (pot = "HP2") {
+            inputsend("F")
             hp2()
         }
         else if (pot = "Warp") {
+            inputsend("F")
             warp()
         }
-        if (ctl = 1) {
+        if (ctl = 1 or pot = "Only Randomizer") {
             item()
-            inputsend("F")
         }
     }
 }
