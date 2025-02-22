@@ -182,6 +182,14 @@ item() {
     mmc(600, 315, spd, "no")
     mmc(485, 410, spd, "no")
 }
+
+onlyrandom() {
+    global
+    mmc(670, 315, spd, "no")
+    mmc(485, 410, spd, "yes")
+    mmc(600, 315, spd, "no")
+    mmc(485, 410, spd, "no")
+}
 ; ===== ^^^^^^^^^^^^^^ =====
 
 ; ===== classes end =====
@@ -194,6 +202,13 @@ F1::
 {
     global
     setup()
+    if (pot = "Only Randomizer") {
+        mmc(32, 475, spd, "no")
+        mmc(32, 385, spd, "no")
+        mmc(900, 235, spd, "no")
+        mmc(785, 260, spd, "no")
+        SendText "ran"
+    }
     loop {
         if (pot = "HP1") {
             inputsend("f")
@@ -207,8 +222,11 @@ F1::
             inputsend("f")
             warp()
         }
-        if (ctl = 1 or pot = "Only Randomizer") {
+        if (ctl = 1) {
             item()
+        }
+        if (pot = "Only Randomizer") {
+            onlyrandom()
         }
     }
 }
