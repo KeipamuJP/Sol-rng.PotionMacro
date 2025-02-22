@@ -36,40 +36,6 @@ main_gui() {
     mn.Show("Center")
 }
 
-; setup class, submit gui options(Potion select, use randomizer), Fullscreen, Potion Auto Add Reset
-setup() {
-    global
-    SendMode "Event"
-    data := mn.Submit(true)
-    pot := data.potion
-    ctl := data.randomizer
-    SetKeyDelay 0, 2
-    WinActivate "Roblox"
-    if (not rwh = wh){
-        Send "{F11}"
-    }
-    inputsend("f")
-    mmc(810, 300, spd, "yes")
-    ms(810, 300, spd, 5, "up")
-    mmc(810, 300, spd, "no")
-    mmc(500, 410, spd, "no")
-    if (pot = "HP1"){
-        ms(810, 375, spd, 5, "down")
-        mmc(810, 375, spd, "no")
-        mmc(500, 410, spd, "no")
-    }
-    else if(pot = "HP2"){
-        ms(810, 450, spd, 5, "down")
-        mmc(810, 450, spd, "no")
-        mmc(500, 410, spd, "no")
-    }
-    else if(pot = "Warp"){
-        ms(810, 525, spd, 5, "down")
-        mmc(810, 525, spd, "no")
-        mmc(500, 410, spd, "no")
-    }
-}
-
 ; send text
 inputsend(text) {
     Send text
@@ -127,6 +93,42 @@ ms(x, y, spd, lp, ud) {
 }
 
 ; ===== IMPORTANT ARIA =====
+; setup class, submit gui options(Potion select, use randomizer), Fullscreen, Potion Auto Add Reset
+setup() {
+    global
+    SendMode "Event"
+    data := mn.Submit(true)
+    pot := data.potion
+    ctl := data.randomizer
+    SetKeyDelay 0, 2
+    WinActivate "Roblox"
+    if (not rwh = wh){
+        Send "{F11}"
+    }
+    if (pot = "HP1" or pot = "HP2" or pot = "Warp") {
+        inputsend("f")
+        mmc(810, 300, spd, "yes")
+        ms(810, 300, spd, 5, "up")
+        mmc(810, 300, spd, "no")
+        mmc(500, 410, spd, "no")
+        if (pot = "HP1"){
+            ms(810, 375, spd, 5, "down")
+            mmc(810, 375, spd, "no")
+            mmc(500, 410, spd, "no")
+        }
+        else if(pot = "HP2"){
+            ms(810, 450, spd, 5, "down")
+            mmc(810, 450, spd, "no")
+            mmc(500, 410, spd, "no")
+        }
+        else if(pot = "Warp"){
+            ms(810, 525, spd, 5, "down")
+            mmc(810, 525, spd, "no")
+            mmc(500, 410, spd, "no")
+        }
+    }
+}
+
 ; Crafting Heavenly Potion I
 hp1() {
     global
@@ -191,9 +193,7 @@ main_gui()
 F1::    
 {
     global
-    if (pot = "HP1" or pot = "HP2" or pot = "Warp") {
-        setup()
-    }
+    setup()
     loop {
         if (pot = "HP1") {
             inputsend("f")
