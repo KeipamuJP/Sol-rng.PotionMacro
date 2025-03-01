@@ -55,6 +55,7 @@ mmc(x, y, spd, dc) {
             Send "{Click}"
             Sleep 10
         }
+        Sleep 80
     }
     else
     {
@@ -132,19 +133,20 @@ setup() {
 ; Crafting Heavenly Potion I
 hp1() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "100"
     mmc(570, 450, spd, "no")
     ms(570, 545, spd, 2, "down")
     mmc(570, 545, spd, "no")
+    mmc(410, 410, spd, "no")
 }
 
 ; Crafting Heavenly Potion II
 hp2() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(510, 450, spd, 2, "up")
     mmc(510, 450, spd, "yes")
     SendText "2"
@@ -154,18 +156,20 @@ hp2() {
     mmc(575, 485, 5, "no")
     ms(570, 545, spd, 2, "down")
     mmc(570, 545, spd, "no")
+    mmc(410, 410, spd, "no")
 }
 
 ; Crafting Warp Potion
 warp() {
     global
-    mmc(410, 410, 5, "no")
+    mmc(410, 410, spd, "no")
     ms(570, 450, spd, 2, "up")
     mmc(570,450, spd, "no")
     ms(510, 545, spd, 2, "down")
     mmc(510, 545, spd, "yes")
     SendText "1000"
     mmc(570, 545, spd, "no")
+    mmc(410, 410, spd, "no")
 }
 
 ; Use Randomizers
@@ -185,8 +189,12 @@ item() {
 
 onlyrandom() {
     global
-    mmc(670, 315, spd, "no")
+    mmc(785, 260, spd, "no")
+    SendText "Strange Controller"
+    mmc(600, 315, spd, "no")
     mmc(485, 410, spd, "yes")
+    mmc(785, 260, spd, "no")
+    SendText "Biome Randomizer"
     mmc(600, 315, spd, "no")
     mmc(485, 410, spd, "no")
 }
@@ -206,24 +214,20 @@ F1::
         mmc(32, 475, spd, "no")
         mmc(32, 385, spd, "no")
         mmc(900, 235, spd, "no")
-        mmc(785, 260, spd, "no")
-        SendText "ran"
     }
     loop {
         if (pot = "HP1") {
-            inputsend("f")
             hp1()
         }
         else if (pot = "HP2") {
-            inputsend("f")
             hp2()
         }
         else if (pot = "Warp") {
-            inputsend("f")
             warp()
         }
         if (ctl = 1) {
             item()
+            inputsend("f")
         }
         if (pot = "Only Randomizer") {
             onlyrandom()
