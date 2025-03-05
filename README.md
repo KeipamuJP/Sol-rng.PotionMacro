@@ -7,6 +7,9 @@ This macro is an automatic potion crafting macro for the game Sol's RNG from Rob
 <ins>改造などはご自由にしてもらってOKですが、**自作発言はお控えください。**</ins>
 <br>
 <ins>You are free to make modifications, **but please refrain from making your own remarks.**</ins>
+<br>
+<br>
+I translated it from [DeepL](https://deepl.com) because I am not very good at English!
 
 ## 動作環境 / Operating environment
 - Windows 10/11
@@ -45,4 +48,3 @@ Enter `F1` to start automatic crafting of potions.
 Enter `F2` to stop the macro.
 <br>
 <br>
-I translated it from [DeepL](https://deepl.com) because I am not very good at English!
