@@ -4,9 +4,9 @@
 This macro is an automatic potion crafting macro for the game Sol's RNG from Roblox.
 <br>
 <br>
-<ins>マクロの改造はご自由にしてもらって構いませんが、**自分で作ったなどの自作発言はお控えください**</ins>
+<ins>マクロの改造はご自由にしてもらって構いませんが、**「自分で作った」などの自作発言はお控えください**</ins>
 <br>
-<ins>You are free to modify the macros as you wish, but please refrain from making your own statements such as **I made it myself**.</ins>
+<ins>You are free to modify the macros as you wish, but please refrain from making your own statements such as "**I made it myself**".</ins>
 <br>
 <br>
 I translated it from [DeepL](https://deepl.com) because I am not very good at English!
