@@ -153,7 +153,7 @@ hp2() {
     mmc(570, 450, spd, "no")
     mmc(510, 485, spd, "yes")
     SendText "125"
-    mmc(575, 485, 5, "no")
+    mmc(575, 485, spd, "no")
     ms(570, 545, spd, 2, "down")
     mmc(570, 545, spd, "no")
     mmc(410, 410, spd, "no")
