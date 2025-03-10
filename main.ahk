@@ -97,7 +97,7 @@ ms(x, y, spd, lp, ud) {
 ; setup class, submit gui options(Potion select, use randomizer), Fullscreen, Potion Auto Add Reset
 setup() {
     global
-    if not pot = "Only Randomizer" {
+    if not (pot = "Only Randomizer") {
         SendMode "Event"
         data := mn.Submit(true)
         pot := data.potion
