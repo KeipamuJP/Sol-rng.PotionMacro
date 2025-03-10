@@ -216,6 +216,12 @@ F1::
         mmc(900, 235, spd, "no")
     }
     loop {
+        if WinExist("Roblox") {
+            continue
+        } else if not WinExist("Roblox") {
+            Result := MsgBox("Robloxが開いていません、マクロを終了します。", "ERROR-404", "OK IconX")
+            ExitApp -1
+        }
         if (pot = "HP1") {
             hp1()
         }
@@ -225,12 +231,11 @@ F1::
         else if (pot = "Warp") {
             warp()
         }
-        if (ctl = 1) {
-            item()
-            inputsend("f")
-        }
         if (pot = "Only Randomizer") {
             onlyrandom()
+        } else if (ctl = 1) {
+            item()
+            inputsend("f")
         }
     }
 }
@@ -242,6 +247,7 @@ F2::
         ExitApp 0
     }
     else if (Result = "No"){
+        WinActivate "Roblox"
         return
     }
 }
