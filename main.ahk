@@ -14,15 +14,6 @@ global rw := Integer(0)
 global rh := Integer(0)
 global test := ""
 global spd := Integer(2)
-if WinExist("Roblox") {
-    WinGetPos ,,&rw,&rh,"Roblox"
-} 
-else
-{
-    MsgBox "Robloxを起動してください。 / Launch Roblox.", "ERROR 404", "OK IconX"
-    ExitApp -4949
-}
-global rwh := Integer(rw + rh)
 ; ===== ^^^^^^ =====
 
 ; ===== classes =====
@@ -34,6 +25,30 @@ main_gui() {
     mn.Add("DDL", "vpotion Choose1", ["HP1", "HP2", "Warp", "Only Randomizer"])
     mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
     mn.Show("Center")
+}
+
+; get roblox wh
+getrobloxwh() {
+    global
+    if WinExist("Roblox") {
+        WinGetPos ,,&rw,&rh,"Roblox"
+    } 
+    else
+    {
+        MsgBox "Robloxを起動してください。 / Launch Roblox.", "ERROR 404", "OK IconX"
+        ExitApp -4949
+    }
+    rwh := Integer(rw + rh)
+}
+
+; check roblox
+check() {
+    if WinExist("Roblox") {
+        return
+    } else if not WinExist("Roblox") {
+        MsgBox "Robloxが開いていません、マクロを終了します。 / Roblox is not open, exit macro.", "ERROR-404", "OK IconX"
+        ExitApp -4949
+    }
 }
 
 ; send text
@@ -97,16 +112,17 @@ ms(x, y, spd, lp, ud) {
 ; setup class, submit gui options(Potion select, use randomizer), Fullscreen, Potion Auto Add Reset
 setup() {
     global
+    SendMode "Event"
+    data := mn.Submit(true)
+    pot := data.potion
+    ctl := data.randomizer
+    SetKeyDelay 0, 2
+    WinActivate "Roblox"
+    getrobloxwh()
+    if (not rwh = wh){
+        Send "{F11}"
+    }
     if not (pot = "Only Randomizer") {
-        SendMode "Event"
-        data := mn.Submit(true)
-        pot := data.potion
-        ctl := data.randomizer
-        SetKeyDelay 0, 2
-        WinActivate "Roblox"
-        if (not rwh = wh){
-            Send "{F11}"
-        }
         if (pot = "HP1" or pot = "HP2" or pot = "Warp") {
             inputsend("f")
             mmc(810, 300, spd, "yes")
@@ -203,7 +219,6 @@ onlyrandom() {
 ; ===== ^^^^^^^^^^^^^^ =====
 
 ; ===== classes end =====
-
 ; Create UI
 main_gui()
 
@@ -218,12 +233,7 @@ F1::
         mmc(900, 235, spd, "no")
     }
     loop {
-        if WinExist("Roblox") {
-            continue
-        } else if not WinExist("Roblox") {
-            Result := MsgBox("Robloxが開いていません、マクロを終了します。", "ERROR-404", "OK IconX")
-            ExitApp -1
-        }
+        check()
         if (pot = "HP1") {
             hp1()
         }
@@ -235,7 +245,8 @@ F1::
         }
         if (pot = "Only Randomizer") {
             onlyrandom()
-        } else if (ctl = 1) {
+        }
+        else if (ctl = 1) {
             item()
             inputsend("f")
         }
