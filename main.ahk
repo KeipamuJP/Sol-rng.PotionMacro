@@ -101,10 +101,8 @@ ms(x, y, spd, lp, ud) {
         }
     } ; error
     else { 
-        result := MsgBox("Developer are an idiot! Invalid Parameter","ERROR: 4949", "OK IconX")
-        if (result = "OK"){
-            ExitApp -4949
-        }
+        MsgBox("Developer are an idiot! Invalid Parameter","ERROR: 4949", "OK IconX")
+        ExitApp -4949
     }
 }
 
