@@ -5,14 +5,11 @@
 ; ===== Values =====
 global pw := A_ScreenWidth
 global ph := A_ScreenHeight
-global tx := Integer(0)
-global ty := Integer(0)
 global wh := Integer(pw + ph)
 global pot := ""
 global ctl := Integer(0)
 global rw := Integer(0)
 global rh := Integer(0)
-global test := ""
 global spd := Integer(2)
 ; ===== ^^^^^^ =====
 
@@ -22,7 +19,7 @@ global spd := Integer(2)
 main_gui() {
     global mn := Gui()
     mn.Add("Text",, "Select Potion:")
-    mn.Add("DDL", "vpotion Choose1", ["HP1", "HP2", "Warp", "Only Randomizer"])
+    mn.Add("DDL", "vpotion Choose1", ["Godly Potion" "Only Randomizer"])
     mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
     mn.Show("Center")
 }
