@@ -7,10 +7,23 @@ global pw := A_ScreenWidth
 global ph := A_ScreenHeight
 global wh := Integer(pw + ph)
 global pot := ""
+global godlypos := Integer(0)
+global godlike := Integer(0)
 global ctl := Integer(0)
 global rw := Integer(0)
 global rh := Integer(0)
 global spd := Integer(2)
+global pots := ["For", "Pos", "li", "Ze", "Had", "Bo", "He"]
+global uipots := ["1. Godly Potion[Zeus]", "2. Godly Potion[Hades]", "3. Potion of Bound", "4. Heavenly Potion", "5. Only use Randomizers"]
+global materials := [ ; based var is pots
+    0, 0, 0, 0, ; Fortune Potion
+    50, 1 , 1, 1, ; Godly Potion[Poseidon]
+    1, 1, 1, 600, ; Godlike Potion
+    25, 25, 1, 0, ; Godly Potion[Zeus]
+    50, 1, 0, 0 ; Godly Potion[Hades]
+    1, 3, 0, 100 ; Potion of Bound
+    250, 2, 1, 0 ; Heavenly Potion
+]
 ; ===== ^^^^^^ =====
 
 ; ===== classes =====
@@ -19,7 +32,9 @@ global spd := Integer(2)
 main_gui() {
     global mn := Gui()
     mn.Add("Text",, "Select Potion:")
-    mn.Add("DDL", "vpotion Choose1", ["Godly Potion" "Only Randomizer"])
+    mn.Add("DDL", "vpotion Choose1", uipots)
+    mn.Add("Checkbox", "vgodlypos", "Craft Godly Potion[Poseidon]")
+    mn.Add("Checkbox", "vgodlike", "Craft Godlike Potion")
     mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
     mn.Show("Center")
 }
@@ -54,13 +69,13 @@ inputsend(text) {
     Sleep 100
 }
 
-; Mousemove and Mouseclick
-mmc(x, y, spd, dc) {
-    px1 := (x / 1366) 
-    py1 := (y / 768)
-    px2 := Integer(A_ScreenWidth * px1)
-    py2 := Integer(A_ScreenHeight * py1)
-    MouseMove px2, py2, spd
+; Mouseclicking with different res
+mouseclick(mx, my, spd, dc) {
+    x1 := (mx / 1366) 
+    y1 := (my / 768)
+    x := Integer(A_ScreenWidth * x1)
+    y := Integer(A_ScreenHeight * y1)
+    MouseMove x, y, spd
     Sleep 100
     if (dc = "yes") {
         loop 2 {
@@ -77,12 +92,17 @@ mmc(x, y, spd, dc) {
 }
 
 ; Scroll class
-ms(x, y, spd, lp, ud) {
-    px1 := (x / 1366) 
-    py1 := (y / 768)
-    px2 := Integer(A_ScreenWidth * px1)
-    py2 := Integer(A_ScreenHeight * py1)
-    MouseMove px2, py2, spd
+mousescroll(mx, my, spd, lp, ud) {
+    ; mx = x pos
+    ; my = y pos
+    ; spd = mouse speed
+    ; lp = scroll loops
+    ; ud = up or down
+    x1 := (mx / 1366) 
+    y1 := (my / 768)
+    x := Integer(A_ScreenWidth * x1)
+    y := Integer(A_ScreenHeight * y1)
+    MouseMove x, y, spd
     Sleep 100
     ; Scroll Up
     if (ud = "up") {
@@ -98,7 +118,7 @@ ms(x, y, spd, lp, ud) {
         }
     } ; error
     else { 
-        MsgBox("Developer are an idiot! Invalid Parameter","ERROR: 4949", "OK IconX")
+        MsgBox("mousescroll error","ERROR: 4949", "OK IconX")
         ExitApp -4949
     }
 }
@@ -108,108 +128,64 @@ ms(x, y, spd, lp, ud) {
 setup() {
     global
     SendMode "Event"
-    data := mn.Submit(true)
+    local data := mn.Submit(true)
     pot := data.potion
     ctl := data.randomizer
+    spot := Integer(SubStr(pot, 1, 1))
+    mpot := spot + 3
     SetKeyDelay 0, 2
     WinActivate "Roblox"
     getrobloxwh()
     if (not rwh = wh){
         Send "{F11}"
     }
-    if not (pot = "Only Randomizer") {
-        if (pot = "HP1" or pot = "HP2" or pot = "Warp") {
-            inputsend("f")
-            mmc(810, 300, spd, "yes")
-            ms(810, 300, spd, 5, "up")
-            mmc(810, 300, spd, "no")
-            mmc(500, 410, spd, "no")
-            if (pot = "HP1"){
-                ms(810, 375, spd, 5, "down")
-                mmc(810, 375, spd, "no")
-                mmc(500, 410, spd, "no")
-            }
-            else if(pot = "HP2"){
-                ms(810, 450, spd, 5, "down")
-                mmc(810, 450, spd, "no")
-                mmc(500, 410, spd, "no")
-            }
-            else if(pot = "Warp"){
-                ms(810, 525, spd, 5, "down")
-                mmc(810, 525, spd, "no")
-                mmc(500, 410, spd, "no")
-            }
-        }
+    if (not spot = 5) {
+        inputsend("f")
+        mouseclick(815, 240, spd, "no")
+        SendText(pots[1])
+        mouseclick(815, 295, spd, "no")
+        mouseclick(500, 410, spd, "no")
+        mouseclick(815, 240, spd, "no")
+        SendText(pots[mpot])
+        mouseclick(815, 295, spd, "no")
+        mouseclick(500, 410, spd, "no")
     }
 }
 
-; Crafting Heavenly Potion I
-hp1() {
-    global
-    mmc(410, 410, spd, "no")
-    ms(510, 450, spd, 2, "up")
-    mmc(510, 450, spd, "yes")
-    SendText "100"
-    mmc(570, 450, spd, "no")
-    ms(570, 545, spd, 2, "down")
-    mmc(570, 545, spd, "no")
-    mmc(410, 410, spd, "no")
-}
+/*
+    Crafting Potions
+    mat = Crafting Materials, 0 or 1, 4strs
+*/
+craft(mat) {
 
-; Crafting Heavenly Potion II
-hp2() {
-    global
-    mmc(410, 410, spd, "no")
-    ms(510, 450, spd, 2, "up")
-    mmc(510, 450, spd, "yes")
-    SendText "2"
-    mmc(570, 450, spd, "no")
-    mmc(510, 485, spd, "yes")
-    SendText "125"
-    mmc(575, 485, spd, "no")
-    ms(570, 545, spd, 2, "down")
-    mmc(570, 545, spd, "no")
-    mmc(410, 410, spd, "no")
-}
-
-; Crafting Warp Potion
-warp() {
-    global
-    mmc(410, 410, spd, "no")
-    ms(570, 450, spd, 2, "up")
-    mmc(570,450, spd, "no")
-    ms(510, 545, spd, 2, "down")
-    mmc(510, 545, spd, "yes")
-    SendText "1000"
-    mmc(570, 545, spd, "no")
-    mmc(410, 410, spd, "no")
 }
 
 ; Use Randomizers
 item() {
     global
-    mmc(32, 385, spd, "no")
-    mmc(900, 235, spd, "no")
-    mmc(785, 260, spd, "no")
+    mouseclick(32, 365, spd, "no")
+    mouseclick(900, 235, spd, "no")
+    mouseclick(785, 260, spd, "no")
     SendText "Strange Controller"
-    mmc(600, 315, spd, "no")
-    mmc(485, 410, spd, "yes")
-    mmc(785, 260, spd, "no")
+    mouseclick(600, 315, spd, "no")
+    mouseclick(485, 410, spd, "yes")
+    mouseclick(785, 260, spd, "no")
     SendText "Biome Randomizer"
-    mmc(600, 315, spd, "no")
-    mmc(485, 410, spd, "no")
+    mouseclick(600, 315, spd, "no")
+    mouseclick(485, 410, spd, "no")
 }
 
+; Only use Strange Controller and Biome Randomizer
 onlyrandom() {
     global
-    mmc(785, 260, spd, "no")
+    mouseclick(785, 260, spd, "no")
     SendText "Strange Controller"
-    mmc(600, 315, spd, "no")
-    mmc(485, 410, spd, "yes")
-    mmc(785, 260, spd, "no")
+    mouseclick(600, 315, spd, "no")
+    mouseclick(485, 410, spd, "yes")
+    mouseclick(785, 260, spd, "no")
     SendText "Biome Randomizer"
-    mmc(600, 315, spd, "no")
-    mmc(485, 410, spd, "no")
+    mouseclick(600, 315, spd, "no")
+    mouseclick(485, 410, spd, "no")
 }
 ; ===== ^^^^^^^^^^^^^^ =====
 
@@ -222,23 +198,17 @@ F1::
 {
     global
     setup()
-    if (pot = "Only Randomizer") {
-        mmc(32, 475, spd, "no")
-        mmc(32, 385, spd, "no")
-        mmc(900, 235, spd, "no")
+    if (spot = 5) {
+        mouseclick(32, 485, spd, "no")
+        mouseclick(32, 365, spd, "no")
+        mouseclick(900, 235, spd, "no")
     }
     loop {
         check()
-        if (pot = "HP1") {
-            hp1()
+        if (not spot = 5) {
+            
         }
-        else if (pot = "HP2") {
-            hp2()
-        }
-        else if (pot = "Warp") {
-            warp()
-        }
-        if (pot = "Only Randomizer") {
+        if (spot = 5) {
             onlyrandom()
         }
         else if (ctl = 1) {
@@ -262,5 +232,5 @@ F2::
 ; TESTING PLACE!!
 F6::
 {
-
+    
 }
