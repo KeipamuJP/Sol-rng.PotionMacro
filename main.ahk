@@ -2,235 +2,157 @@
 #SingleInstance Force
 #NoTrayIcon
 
-; ===== Values =====
-global pw := A_ScreenWidth
-global ph := A_ScreenHeight
-global wh := Integer(pw + ph)
-global pot := ""
-global godlypos := Integer(0)
-global godlike := Integer(0)
-global ctl := Integer(0)
-global rw := Integer(0)
-global rh := Integer(0)
-global spd := Integer(2)
-global pots := ["For", "Pos", "li", "Ze", "Had", "Bo", "He"]
-global uipots := ["1. Godly Potion[Zeus]", "2. Godly Potion[Hades]", "3. Potion of Bound", "4. Heavenly Potion", "5. Only use Randomizers"]
-global materials := [ ; based var is pots
-    0, 0, 0, 0, ; Fortune Potion
-    50, 1 , 1, 1, ; Godly Potion[Poseidon]
-    1, 1, 1, 600, ; Godlike Potion
-    25, 25, 1, 0, ; Godly Potion[Zeus]
-    50, 1, 0, 0 ; Godly Potion[Hades]
-    1, 3, 0, 100 ; Potion of Bound
-    250, 2, 1, 0 ; Heavenly Potion
+; ~= Variable =~
+mspeed := 2
+interval := 100
+old_w := 1366
+old_h := 768
+rw := 0
+rh := 0
+pots := ["1. Godly Potion [Zeus]", "2. Godly Potion [Poseidon]", "3. Godly Potion [Hades]", "4. Godlike Potion"]
+q_len := 4
+pot_q := ["GodlyZeus", "GodlyPos", "GodlyHades", "Godlike Potion"]
+craft_yq := [445, 485, 525, 560]
+craft_q := [
+    25, 25, 1, 0, ; GodlyZeus
+    50, 1, 1, 1, ; GodlyPos
+    50, 1, 0, 0, ; GodlyHades
+    1, 1, 1, 600 ; Godlike
 ]
-; ===== ^^^^^^ =====
 
-; ===== classes =====
-
-; UI class, DDL, Checkbox
-main_gui() {
-    global mn := Gui()
-    mn.Add("Text",, "Select Potion:")
-    mn.Add("DDL", "vpotion Choose1", uipots)
-    mn.Add("Checkbox", "vgodlypos", "Craft Godly Potion[Poseidon]")
-    mn.Add("Checkbox", "vgodlike", "Craft Godlike Potion")
-    mn.Add("Checkbox", "vrandomizer", "Use Randomizers?")
-    mn.Show("Center")
-}
-
-; get roblox wh
-getrobloxwh() {
+; ~= Definition =~
+/*
+    Use for clicking
+    x: Select x pos
+    y: Select y pos
+*/
+mouseclick(x, y) {
     global
-    if WinExist("Roblox") {
-        WinGetPos ,,&rw,&rh,"Roblox"
-    } 
-    else
-    {
-        MsgBox "Robloxを起動してください。 / Launch Roblox.", "ERROR 404", "OK IconX"
-        ExitApp -4949
-    }
-    rwh := Integer(rw + rh)
-}
+    new_x := Round(x / old_w * A_ScreenWidth)
+    new_y := Round(y / old_h * A_ScreenHeight)
 
-; check roblox
-check() {
-    if WinExist("Roblox") {
-        return
-    } else if not WinExist("Roblox") {
-        MsgBox "Robloxが開いていません、マクロを終了します。 / Roblox is not open, exit macro.", "ERROR-404", "OK IconX"
-        ExitApp -4949
-    }
-}
-
-; send text
-inputsend(text) {
-    Send text
-    Sleep 100
-}
-
-; Mouseclicking with different res
-mouseclick(mx, my, spd, dc) {
-    x1 := (mx / 1366) 
-    y1 := (my / 768)
-    x := Integer(A_ScreenWidth * x1)
-    y := Integer(A_ScreenHeight * y1)
-    MouseMove x, y, spd
-    Sleep 100
-    if (dc = "yes") {
-        loop 2 {
-            Send "{Click}"
-            Sleep 10
-        }
-        Sleep 80
-    }
-    else
-    {
-        Send "{Click}"
-        Sleep 100
-    }
-}
-
-; Scroll class
-mousescroll(mx, my, spd, lp, ud) {
-    ; mx = x pos
-    ; my = y pos
-    ; spd = mouse speed
-    ; lp = scroll loops
-    ; ud = up or down
-    x1 := (mx / 1366) 
-    y1 := (my / 768)
-    x := Integer(A_ScreenWidth * x1)
-    y := Integer(A_ScreenHeight * y1)
-    MouseMove x, y, spd
-    Sleep 100
-    ; Scroll Up
-    if (ud = "up") {
-        loop lp {
-            Send "{WheelUp}"
-            Sleep 100
-        }
-    } ; Scroll Down
-    else if (ud = "down") {
-        loop lp {
-            Send "{WheelDown}"
-            Sleep 100
-        }
-    } ; error
-    else { 
-        MsgBox("mousescroll error","ERROR: 4949", "OK IconX")
-        ExitApp -4949
-    }
-}
-
-; ===== IMPORTANT ARIA =====
-; setup class, submit gui options(Potion select, use randomizer), Fullscreen, Potion Auto Add Reset
-setup() {
-    global
     SendMode "Event"
-    local data := mn.Submit(true)
-    pot := data.potion
-    ctl := data.randomizer
-    spot := Integer(SubStr(pot, 1, 1))
-    mpot := spot + 3
-    SetKeyDelay 0, 2
-    WinActivate "Roblox"
-    getrobloxwh()
-    if (not rwh = wh){
-        Send "{F11}"
-    }
-    if (not spot = 5) {
-        inputsend("f")
-        mouseclick(815, 240, spd, "no")
-        SendText(pots[1])
-        mouseclick(815, 295, spd, "no")
-        mouseclick(500, 410, spd, "no")
-        mouseclick(815, 240, spd, "no")
-        SendText(pots[mpot])
-        mouseclick(815, 295, spd, "no")
-        mouseclick(500, 410, spd, "no")
-    }
+    MouseMove(new_x, new_y, mspeed)
+    Send("{Click}")
+    Sleep(interval)
 }
 
 /*
-    Crafting Potions
-    mat = Crafting Materials, 0 or 1, 4strs
+    Use for Scrolling page
+    x: Select x pos
+    y: Select y pos
+    ud: Select up or down for scrolling direction
+    lp: Scroll loops
 */
-craft(mat) {
-
-}
-
-; Use Randomizers
-item() {
+mousescroll(x, y, ud, lp) {
     global
-    mouseclick(32, 365, spd, "no")
-    mouseclick(900, 235, spd, "no")
-    mouseclick(785, 260, spd, "no")
-    SendText "Strange Controller"
-    mouseclick(600, 315, spd, "no")
-    mouseclick(485, 410, spd, "yes")
-    mouseclick(785, 260, spd, "no")
-    SendText "Biome Randomizer"
-    mouseclick(600, 315, spd, "no")
-    mouseclick(485, 410, spd, "no")
+    new_x := Round(x / old_w * A_ScreenWidth)
+    new_y := Round(y / old_h * A_ScreenHeight)
+
+    SendMode "Event"
+    MouseMove(new_x, new_y, mspeed)
+    Send("{Click}")
+
+    if (ud = "up") {
+        loop(lp) {
+            Send("{WheelUp}")
+            Sleep(interval * 1.5)
+        }
+    } else if (ud = "down") {
+        loop(lp) {
+            Send("{WheelDown}")
+            Sleep(interval * 1.5)
+        }
+    } else {
+        MsgBox("Mousescroll's ud value is incorrect! please fix it")
+        ExitApp(-1)
+    }
 }
 
-; Only use Strange Controller and Biome Randomizer
-onlyrandom() {
+c_loop() {
     global
-    mouseclick(785, 260, spd, "no")
-    SendText "Strange Controller"
-    mouseclick(600, 315, spd, "no")
-    mouseclick(485, 410, spd, "yes")
-    mouseclick(785, 260, spd, "no")
-    SendText "Biome Randomizer"
-    mouseclick(600, 315, spd, "no")
-    mouseclick(485, 410, spd, "no")
+    a_query := data_pot * q_len - 3
+    c_yquery := 1
+    loop(4) {
+        if (craft_q[a_query] != 0) {
+            if (craft_q[a_query] = 1) {
+                mouseclick(568, craft_yq[c_yquery])
+            } else {
+                mouseclick(510, craft_yq[c_yquery])
+                SendText(craft_q[a_query])
+                mouseclick(568, craft_yq[c_yquery])
+            }
+        }
+        a_query++
+        c_yquery++
+    }
+    mouseclick(410, 410)
 }
-; ===== ^^^^^^^^^^^^^^ =====
 
-; ===== classes end =====
-; Create UI
-main_gui()
-
-; Macro Start
-F1::    
-{
+; Main script
+main_macro() {
     global
-    setup()
-    if (spot = 5) {
-        mouseclick(32, 485, spd, "no")
-        mouseclick(32, 365, spd, "no")
-        mouseclick(900, 235, spd, "no")
+    SendMode "Event"
+
+    local data := mg.Submit(true)
+    data_pot := SubStr(data.SelPot, 1, 1)
+    data_aar := data.bool_aar
+
+    WinActivate("Roblox")
+    WinGetClientPos(,,&rw,&rh,"Roblox")
+    ; MsgBox(rw " | " rh)
+    if (rw != A_ScreenWidth or rh != A_ScreenHeight) {
+        Send("{F11}")
     }
-    loop {
-        check()
-        if (not spot = 5) {
-            
-        }
-        if (spot = 5) {
-            onlyrandom()
-        }
-        else if (ctl = 1) {
-            item()
-            inputsend("f")
-        }
-    }
-}
-; Stopping Macro
-F2::
-{
-    Result := MsgBox("マクロを終了しますか？ / Do you want to exit the macro?",, "YesNo")
-    if (Result = "Yes"){
-        ExitApp 0
-    }
-    else if (Result = "No"){
-        WinActivate "Roblox"
-        return
-    }
-}
-; TESTING PLACE!!
-F6::
-{
     
+    Send("f")
+    mousescroll(815, 300, "up", 8)
+    mouseclick(815, 240)
+    mouseclick(815, 300)
+    if (data_aar = 1) {
+        mouseclick(505, 410)
+    }
+    mouseclick(815, 240)
+    SendText(pot_q[data_pot])
+    mouseclick(815, 300)
+    if (data_aar = 1) {
+        mouseclick(505, 410)
+    }
+
+    loop {
+        c_loop()
+    }
+}
+
+; Use for stopping macro
+stop_macro() {
+    ask := MsgBox("マクロを終了しますか？", "", "OKCancel Icon!")
+    if (ask = 'OK') {
+        ExitApp(0)
+    } else if (ask = 'Cancel') {
+        
+    } else {
+        ExitApp(-1)
+    }
+}
+
+; Making GUI
+make_gui() {
+    global
+    mg := Gui()
+    mg.Add("Text", "", "制作するポーションを選択してください:")
+    mg.Add("DDL", "vSelPot Choose1", pots)
+    mg.Add("Checkbox", "vbool_aar Checked", "Auto Add Reset")
+    mg.Show("Center AutoSize")
+}
+
+; ~= main =~
+make_gui()
+
+F1:: {
+    main_macro()
+}
+
+F2:: {
+    stop_macro()
 }
