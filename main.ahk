@@ -9,15 +9,19 @@ old_w := 1366
 old_h := 768
 rw := 0
 rh := 0
-pots := ["1. Godly Potion [Zeus]", "2. Godly Potion [Poseidon]", "3. Godly Potion [Hades]", "4. Godlike Potion"]
+add_pot := []
+pot_godlike := 0
+pots := ["1. Godly Potion [Zeus]", "2. Godly Potion [Poseidon]", "3. Godly Potion [Hades]", "4. Godlike Potion", "5. Heavenly Potion", "6. Potion of Bound"]
 q_len := 4
-pot_q := ["GodlyZeus", "GodlyPos", "GodlyHades", "Godlike Potion"]
+pot_q := ["GodlyZeus", "GodlyPos", "GodlyHades", "Godlike Potion", "Heavenly Potion", "Potion of Bound"]
 craft_yq := [445, 485, 525, 560]
 craft_q := [
     25, 25, 1, 0, ; GodlyZeus
     50, 1, 1, 1, ; GodlyPos
     50, 1, 0, 0, ; GodlyHades
-    1, 1, 1, 600 ; Godlike
+    1, 1, 1, 600, ; Godlike
+    250, 2, 1, 0, ; Heavenly Potion
+    1, 3, 0, 100 ; Potion of Bound
 ]
 
 ; ~= Definition =~
@@ -69,16 +73,35 @@ mousescroll(x, y, ud, lp) {
     }
 }
 
+/*
+    Crafting definition
+    Get a crafting materials from craft_q list and
+    if callback is 0, skip clicking
+    if callback is 1, click add button only
+    if callback is 2~,
+    double clicking text box and enter material quantity,
+    then clicking add button
+    then clicking craft button
+*/
 c_loop() {
     global
     a_query := data_pot * q_len - 3
     c_yquery := 1
-    loop(4) {
+    if (add_pot.Length != 0) {
+        mouseclick(815, 240)
+        mouseclick(815, 300)
+        mouseclick(815, 240)
+        SendText(pot_q[data_pot])
+        mouseclick(815, 300)
+    }
+    loop(q_len) {
         if (craft_q[a_query] != 0) {
             if (craft_q[a_query] = 1) {
                 mouseclick(568, craft_yq[c_yquery])
             } else {
-                mouseclick(510, craft_yq[c_yquery])
+                loop(2) {
+                    mouseclick(510, craft_yq[c_yquery])
+                }
                 SendText(craft_q[a_query])
                 mouseclick(568, craft_yq[c_yquery])
             }
@@ -89,14 +112,54 @@ c_loop() {
     mouseclick(410, 410)
 }
 
+c_addition() {
+    global
+    if (add_pot.Length != 0) {
+        c_q := 1
+        pot := add_pot[c_q]
+        mouseclick(815, 240)
+        mouseclick(815, 300)
+        mouseclick(815, 240)
+        SendText(pot_q[pot])
+        mouseclick(815, 300)
+    }
+    loop(add_pot.Length) {
+        pot := add_pot[c_q]
+        a_query := pot * q_len - 3
+        c_yquery := 1
+        loop(q_len) {
+            if (craft_q[a_query] != 0) {
+                if (craft_q[a_query] = 1) {
+                    mouseclick(568, craft_yq[c_yquery])
+                } else {
+                    loop(2) {
+                        mouseclick(510, craft_yq[c_yquery])
+                    }
+                    SendText(craft_q[a_query])
+                    mouseclick(568, craft_yq[c_yquery])
+                }
+            }
+            a_query++
+            c_yquery++
+        }
+        mouseclick(410, 410)
+        c_q++
+    }
+}
+
 ; Main script
 main_macro() {
-    global
+    global  
     SendMode "Event"
 
     local data := mg.Submit(true)
     data_pot := SubStr(data.SelPot, 1, 1)
     data_aar := data.bool_aar
+    data_glp := data.pot_godlike
+
+    if (data_glp = 1) {
+        add_pot.InsertAt(0, 4)
+    }
 
     WinActivate("Roblox")
     WinGetClientPos(,,&rw,&rh,"Roblox")
@@ -121,6 +184,7 @@ main_macro() {
 
     loop {
         c_loop()
+        c_addition()
     }
 }
 
@@ -143,6 +207,7 @@ make_gui() {
     mg.Add("Text", "", "制作するポーションを選択してください:")
     mg.Add("DDL", "vSelPot Choose1", pots)
     mg.Add("Checkbox", "vbool_aar Checked", "Auto Add Reset")
+    mg.Add("Checkbox", "vpot_godlike", "and Crafting Godlike Pot too")
     mg.Show("Center AutoSize")
 }
 
@@ -155,4 +220,8 @@ F1:: {
 
 F2:: {
     stop_macro()
+}
+
+F6:: {
+    
 }
