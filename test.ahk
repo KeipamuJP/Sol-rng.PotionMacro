@@ -3,11 +3,12 @@
 #NoTrayIcon
 
 ; 変数
-inifile := A_WorkingDir . "\config.ini"
+inifile := A_WorkingDir "\config.ini"
 potions := ["1. Godlike Potion", "2. Godly Potion[Zeus]", "3. Godly Potion[Poseidon]", "4. Godly Potion[Hades]", "5. Heavenly Potion", "6. Potion of bound", "7. Diver Potion", "8. Zombie Potion"]
 potwords := ["Godlike", "GodlyZeus", "GodlyPoseidon", "GodlyHades", "Heavenly", "Bound", "Diver", "Zombie"]
 ww := 0
 wh := 0
+Autoadd := 0
 moveanim := 2
 interval := 100
 
@@ -18,10 +19,14 @@ interval := 100
 ini_setup(*) {
     if not FileExist(inifile) {
         try {
-            FileAppend("[Crafting]`nAutoadd=True", inifile)
+            FileAppend("[Crafting]`nAutoadd=1", inifile)
+            MsgBox("初めて起動されたので、`n現在のフォルダにコンフィグファイルを生成しました。", "初回起動", "OK Iconi")
         } catch Any as err {
             errout(err)
         }
+    }
+    try {
+        global Autoadd := IniRead(inifile, "Crafting", "Autoadd")
     }
 }
 
@@ -72,34 +77,57 @@ mclick(dc:=False,Scr:="",ScrLoop:=0) {
     エラー文
 */
 errout(err) {
-    MsgBox("Error Catched: " . err, "Exeption", "OK IconX")
+    MsgBox("Error Catched: " err, "Exeption", "OK IconX")
     ExitApp(-1)
 }
+
+/*
+
+*/
 
 /*
     メインスクリプト、ループ
 */
 main(*) {
+    ; guiから数値取得
+    global
     guistat := mgui.Submit(False)
     mgui.Minimize()
-
+    IniWrite(guistat.Autoadd, inifile, "Crafting", "Autoadd")
     SendMode("Event")
 
-    potnum := SubStr(guistat.pot, 1, 1)
+    ; config取得
     try {
         WinGetPos(,, &ww, &wh, "Roblox")
-        WinActivate("Roblox")
-        if (ww != A_ScreenWidth or wh != A_ScreenHeight) {
-            Send('{F11}')
-        }
-        mmove(820, 300)
-        mclick(,"up",15)
-        mmove(820, 240)
-        mclick()
+        potnum := Integer(SubStr(guistat.pot, 1, 1))
+        Autoadd := IniRead(inifile, "Crafting", "Autoadd")
     } catch Any as err {
         errout(err)
     }
-    
+
+    ; セットアップ
+    WinActivate("Roblox")
+    if (ww != A_ScreenWidth or wh != A_ScreenHeight) {
+        Send('{F11}')
+    }
+    mmove(820, 300)
+    mclick(, "up", 15)
+    mmove(820, 240)
+    mclick()
+    SendText(potwords[potnum])
+    mmove(820, 300)
+    mclick()
+    if (Autoadd == 1) {
+        mmove(505, 410)
+        mclick()
+    }
+
+    ; メインループ
+    loop {
+        mmove(410, 410)
+        mclick()
+        
+    }
 }
 
 /*
@@ -109,6 +137,8 @@ exitscript(*) {
     status := MsgBox("マクロを終了しますか？", "Exiting Macro", "OKCancel Iconi Default2")
     if (status == "OK") {
         ExitApp()
+    } else {
+        WinActivate("Roblox")
     }
 }
 
@@ -120,7 +150,11 @@ main_gui(*) {
     mgui.Title := "Potion Macro"
     mgui.Add("Text", , "Select Potion:")
     mgui.Add("DropDownList", "vpot Choose1", potions)
-    mgui.Add("Checkbox", "vautoadd", "Reset auto add")
+    if (Autoadd == 1) {
+        mgui.Add("Checkbox", "vAutoadd Checked", "Reset auto add")
+    } else {
+        mgui.Add("Checkbox", "vAutoadd", "Reset auto add")
+    }
     Submit := mgui.Add("Button", "xm", "Start").OnEvent("Click", main)
     Exit := mgui.Add("Button", "x+2", "Exit").OnEvent("Click", exitscript)
     mgui.Show("Center")
