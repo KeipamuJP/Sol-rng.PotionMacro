@@ -9,7 +9,7 @@ This macro is an automatic potion crafting macro for the game Sol's RNG from Rob
 <ins>You are free to modify the macros as you wish, but please refrain from making your own statements such as "**I made it myself**".</ins>
 <br>
 <br>
-I translated it from [DeepL](https://deepl.com) because I am not very good at English!
+I translated it from [DeepL](https://deepl.com) because I am not good at English!
 
 ## 動作環境 / Operating environment
 - Windows 10/11
