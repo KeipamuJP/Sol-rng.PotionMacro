@@ -2,226 +2,193 @@
 #SingleInstance Force
 #NoTrayIcon
 
-; ~= Variable =~
-mspeed := 2
-interval := 100
-old_w := 1366
-old_h := 768
-rw := 0
-rh := 0
-add_pot := []
-pot_godlike := 0
-pots := ["1. Godly Potion [Zeus]", "2. Godly Potion [Poseidon]", "3. Godly Potion [Hades]", "4. Godlike Potion", "5. Heavenly Potion", "6. Potion of Bound"]
-q_len := 4
-pot_q := ["GodlyZeus", "GodlyPos", "GodlyHades", "Godlike Potion", "Heavenly Potion", "Potion of Bound"]
-craft_yq := [445, 485, 525, 560]
-craft_q := [
-    25, 25, 1, 0, ; GodlyZeus
-    50, 1, 1, 1, ; GodlyPos
-    50, 1, 0, 0, ; GodlyHades
-    1, 1, 1, 600, ; Godlike
-    250, 2, 1, 0, ; Heavenly Potion
-    1, 3, 0, 100 ; Potion of Bound
+; 変数
+inifile := A_WorkingDir "\config.ini"
+potions := ["1. Godlike Potion", "2. Godly Potion[Zeus]", "3. Godly Potion[Poseidon]", "4. Godly Potion[Hades]", "5. Heavenly Potion", "6. Potion of bound", "7. Diver Potion", "8. Zombie Potion"]
+potwords := ["Godlike", "GodlyZeus", "GodlyPoseidon", "GodlyHades", "Heavenly", "Bound", "Diver", "Zombie"]
+potmat := [
+    1, 1, 1, 600,
+    25, 25, 1, 0,
+    50, 1, 1, 0,
+    50, 1, 0, 0,
+    250, 2, 1, 0,
+    1, 3, 0, 100,
+    20, 1, 0, 0,
+    10, 1, 0, 0
 ]
+ww := 0
+wh := 0
+Autoadd := 0
+moveanim := 2
+interval := 100
 
-; ~= Definition =~
+; 関数
 /*
-    Use for clicking
-    x: Select x pos
-    y: Select y pos
+    config.iniが存在しない場合に設定するスクリプト
 */
-mouseclick(x, y) {
-    global
-    new_x := Round(x / old_w * A_ScreenWidth)
-    new_y := Round(y / old_h * A_ScreenHeight)
+ini_setup(*) {
+    if not FileExist(inifile) {
+        try {
+            FileAppend("[Crafting]`nAutoadd=1", inifile)
+            MsgBox("初めて起動されたので、`n現在のフォルダにコンフィグファイルを生成しました。", "初回起動", "OK Iconi")
+        } catch Any as err {
+            errout(err)
+        }
+    }
+    try {
+        global Autoadd := IniRead(inifile, "Crafting", "Autoadd")
+    }
+}
 
-    SendMode "Event"
-    MouseMove(new_x, new_y, mspeed)
-    Send("{Click}")
+/*
+    マウス移動用の関数
+    x: x座標
+    y: y座標
+*/
+mmove(x:=0, y:=0){
+    nx := Round(x / 1366 * A_ScreenWidth)
+    ny := Round(y / 768 * A_ScreenHeight)
+    MouseMove(nx, ny, moveanim)
     Sleep(interval)
 }
 
 /*
-    Use for Scrolling page
-    x: Select x pos
-    y: Select y pos
-    ud: Select up or down for scrolling direction
-    lp: Scroll loops
+    マウスクリック用の関数
+    dc: <Boolean>, ダブルクリックにするかどうか
+    Scr: <up or down>, スクロールするかどうか
+    ScrLoop: <int>, スクロールのループ回数
 */
-mousescroll(x, y, ud, lp) {
-    global
-    new_x := Round(x / old_w * A_ScreenWidth)
-    new_y := Round(y / old_h * A_ScreenHeight)
-
-    SendMode "Event"
-    MouseMove(new_x, new_y, mspeed)
-    Send("{Click}")
-
-    if (ud = "up") {
-        loop(lp) {
-            Send("{WheelUp}")
-            Sleep(interval * 1.5)
-        }
-    } else if (ud = "down") {
-        loop(lp) {
-            Send("{WheelDown}")
-            Sleep(interval * 1.5)
+mclick(dc:=False,Scr:="",ScrLoop:=0) {
+    if (dc) {
+        loop (2) {
+            Click('Left')
+            Sleep(interval / 4)
         }
     } else {
-        MsgBox("Mousescroll's ud value is incorrect! please fix it")
-        ExitApp(-1)
+        Click('Left')
+        Sleep(interval / 2)
+    }
+    Sleep(interval / 2)
+    ; スクロールの動作
+    if (StrLower(Scr) == "down") {
+        loop (ScrLoop) {
+            Click('WheelDown')
+            Sleep(interval)
+        }
+    } else if (StrLower(Scr) == "up") {
+        loop (ScrLoop) {
+            Click('WheelUp')
+            Sleep(interval)
+        }
     }
 }
 
 /*
-    Crafting definition
-    Get a crafting materials from craft_q list and
-    if callback is 0, skip clicking
-    if callback is 1, click add button only
-    if callback is 2~,
-    double clicking text box and enter material quantity,
-    then clicking add button
-    then clicking craft button
+    エラー文
 */
-c_loop() {
-    global
-    a_query := data_pot * q_len - 3
-    c_yquery := 1
-    if (add_pot.Length != 0) {
-        mouseclick(815, 240)
-        mouseclick(815, 300)
-        mouseclick(815, 240)
-        SendText(pot_q[data_pot])
-        mouseclick(815, 300)
-    }
-    loop(q_len) {
-        if (craft_q[a_query] != 0) {
-            if (craft_q[a_query] = 1) {
-                mouseclick(568, craft_yq[c_yquery])
-            } else {
-                loop(2) {
-                    mouseclick(510, craft_yq[c_yquery])
-                }
-                SendText(craft_q[a_query])
-                mouseclick(568, craft_yq[c_yquery])
-            }
-        }
-        a_query++
-        c_yquery++
-    }
-    mouseclick(410, 410)
+errout(err) {
+    MsgBox("Error Catched: " err, "Exeption", "OK IconX")
+    ExitApp(-1)
 }
 
-c_addition() {
+/*
+    メインスクリプト、ループ
+*/
+main(*) {
+    ; guiから数値取得
     global
-    if (add_pot.Length != 0) {
-        c_q := 1
-        pot := add_pot[c_q]
-        mouseclick(815, 240)
-        mouseclick(815, 300)
-        mouseclick(815, 240)
-        SendText(pot_q[pot])
-        mouseclick(815, 300)
-    }
-    loop(add_pot.Length) {
-        pot := add_pot[c_q]
-        a_query := pot * q_len - 3
-        c_yquery := 1
-        loop(q_len) {
-            if (craft_q[a_query] != 0) {
-                if (craft_q[a_query] = 1) {
-                    mouseclick(568, craft_yq[c_yquery])
-                } else {
-                    loop(2) {
-                        mouseclick(510, craft_yq[c_yquery])
-                    }
-                    SendText(craft_q[a_query])
-                    mouseclick(568, craft_yq[c_yquery])
-                }
-            }
-            a_query++
-            c_yquery++
-        }
-        mouseclick(410, 410)
-        c_q++
-    }
-}
+    guistat := mgui.Submit(False)
+    mgui.Minimize()
+    IniWrite(guistat.Autoadd, inifile, "Crafting", "Autoadd")
+    SendMode("Event")
 
-; Main script
-main_macro() {
-    global  
-    SendMode "Event"
-
-    local data := mg.Submit(true)
-    data_pot := SubStr(data.SelPot, 1, 1)
-    data_aar := data.bool_aar
-    data_glp := data.pot_godlike
-
-    if (data_glp = 1) {
-        add_pot.InsertAt(0, 4)
+    ; config取得
+    try {
+        WinGetPos(,, &ww, &wh, "Roblox")
+        potnum := Integer(SubStr(guistat.pot, 1, 1))
+        Autoadd := IniRead(inifile, "Crafting", "Autoadd")
+    } catch Any as err {
+        errout(err)
     }
 
+    ; セットアップ
     WinActivate("Roblox")
-    WinGetClientPos(,,&rw,&rh,"Roblox")
-    ; MsgBox(rw " | " rh)
-    if (rw != A_ScreenWidth or rh != A_ScreenHeight) {
-        Send("{F11}")
+    if (ww != A_ScreenWidth or wh != A_ScreenHeight) {
+        Send('{F11}')
     }
-    
-    Send("f")
-    mousescroll(815, 300, "up", 8)
-    mouseclick(815, 240)
-    mouseclick(815, 300)
-    if (data_aar = 1) {
-        mouseclick(505, 410)
-    }
-    mouseclick(815, 240)
-    SendText(pot_q[data_pot])
-    mouseclick(815, 300)
-    if (data_aar = 1) {
-        mouseclick(505, 410)
+    Send('f')
+    mmove(820, 300)
+    mclick(, "up", 15)
+    mmove(820, 240)
+    mclick()
+    SendText(potwords[potnum])
+    mmove(820, 300)
+    mclick()
+    if (Autoadd == 1) {
+        mmove(505, 410)
+        mclick()
     }
 
+    ; メインループ
     loop {
-        c_loop()
-        c_addition()
+        mmove(410, 410)
+        mclick()
+        i := 1
+        loop (4) {
+            potid := Integer(4 * potnum - 4 + i)
+            mousey := 38 * i + 410
+            if (potmat[potid] != 0) {
+                if (potmat[potid] != 1) {
+                    mmove(510, mousey)
+                    mclick(True)
+                    SendText(potmat[potid])
+                }
+                mmove(567, mousey)
+                mclick()
+            }
+            i++
+        }
     }
 }
 
-; Use for stopping macro
-stop_macro() {
-    ask := MsgBox("マクロを終了しますか？", "", "OKCancel Icon!")
-    if (ask = 'OK') {
-        ExitApp(0)
-    } else if (ask = 'Cancel') {
-        
+/*
+    スクリプト中断
+*/
+exitscript(*) {
+    status := MsgBox("マクロを終了しますか？", "Exiting Macro", "OKCancel Iconi Default2")
+    if (status == "OK") {
+        ExitApp()
     } else {
-        ExitApp(-1)
+        WinActivate("Roblox")
     }
 }
 
-; Making GUI
-make_gui() {
-    global
-    mg := Gui()
-    mg.Add("Text", "", "制作するポーションを選択してください:")
-    mg.Add("DDL", "vSelPot Choose1", pots)
-    mg.Add("Checkbox", "vbool_aar Checked", "Auto Add Reset")
-    mg.Add("Checkbox", "vpot_godlike", "and Crafting Godlike Pot too")
-    mg.Show("Center AutoSize")
+/*
+    マクロの設定や開始ができるウィンドウ
+*/
+main_gui(*) {
+    global mgui := Gui("-MinimizeBox -Resize -SysMenu")
+    mgui.Title := "Potion Macro"
+    mgui.Add("Text", , "Select Potion:")
+    mgui.Add("DropDownList", "vpot Choose1", potions)
+    if (Autoadd == 1) {
+        mgui.Add("Checkbox", "vAutoadd Checked", "Reset auto add")
+    } else {
+        mgui.Add("Checkbox", "vAutoadd", "Reset auto add")
+    }
+    Submit := mgui.Add("Button", "xm", "Start").OnEvent("Click", main)
+    Exit := mgui.Add("Button", "x+2", "Exit").OnEvent("Click", exitscript)
+    mgui.Show("Center")
 }
 
-; ~= main =~
-make_gui()
+; メイン
+ini_setup
+main_gui
 
 F1:: {
-    main_macro()
+    main
 }
 
 F2:: {
-    stop_macro()
-}
-
-F6:: {
-    
+    exitscript
 }
