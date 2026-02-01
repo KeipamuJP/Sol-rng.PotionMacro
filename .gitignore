@@ -1,3 +1,4 @@
 .*
 for-linux
-config.ini
+*.ini
+*.exe

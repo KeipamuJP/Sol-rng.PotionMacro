@@ -24,6 +24,17 @@ interval := 100
 
 ; 関数
 /*
+    materials.txtが存在しない場合に設定するスクリプト
+*/
+mat_setup(*) {
+    try {
+        
+    } catch Any as err {
+        errout(err)
+    }
+}
+
+/*
     config.iniが存在しない場合に設定するスクリプト
 */
 ini_setup(*) {
