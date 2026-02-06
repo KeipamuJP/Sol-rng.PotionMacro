@@ -5,7 +5,7 @@
 ; 変数
 inifile := A_WorkingDir "\config.ini"
 potions := ["1. Godlike Potion", "2. Godly Potion[Zeus]", "3. Godly Potion[Poseidon]", "4. Godly Potion[Hades]", "5. Heavenly Potion", "6. Potion of bound", "7. Diver Potion", "8. Zombie Potion"]
-potwords := ["Godlike", "GodlyZeus", "GodlyPoseidon", "GodlyHades", "Heavenly", "Bound", "Diver", "Zombie"]
+potwords := ["Godlike", "Godly", "Godly", "Godly", "Heavenly", "Bound", "Diver", "Zombie"]
 potmat := [
     1, 1, 1, 600,
     25, 25, 1, 0,
@@ -23,17 +23,6 @@ moveanim := 2
 interval := 100
 
 ; 関数
-/*
-    materials.txtが存在しない場合に設定するスクリプト
-*/
-mat_setup(*) {
-    try {
-        
-    } catch Any as err {
-        errout(err)
-    }
-}
-
 /*
     config.iniが存在しない場合に設定するスクリプト
 */
@@ -98,8 +87,23 @@ mclick(dc:=False,Scr:="",ScrLoop:=0) {
     エラー文
 */
 errout(err) {
-    MsgBox("Error Catched: " err, "Exeption", "OK IconX")
+    MsgBox("Error Catched: " String(err), "Exeption", "OK IconX")
     ExitApp(-1)
+}
+
+/*
+    ポーションセレクト
+*/
+selpot(num:=1) {
+    mmove(1163, 190)
+    mclick(True)
+    SendText(potwords[potnum])
+    Sleep(interval)
+    Send('{Enter}')
+    Sleep(interval)
+    local mousey := 96 * num + 242 - 96
+    mmove(1163, mousey)
+    mclick()
 }
 
 /*
@@ -128,33 +132,36 @@ main(*) {
         Send('{F11}')
     }
     Send('f')
-    mmove(820, 300)
-    mclick(, "up", 15)
-    mmove(820, 240)
-    mclick()
-    SendText(potwords[potnum])
-    mmove(820, 300)
-    mclick()
+    Sleep(1500)
+    if InStr(guistat.pot, "Godly") {
+        selnum := potnum - 1
+        selpot(selnum)
+    } else {
+        selpot()
+    }
+    
     if (Autoadd == 1) {
-        mmove(505, 410)
+        mmove(310, 586)
         mclick()
     }
+    mmove(156, 585)
+    mclick()
 
     ; メインループ
     loop {
-        mmove(410, 410)
+        mmove(770, 488)
         mclick()
         i := 1
         loop (4) {
             potid := Integer(4 * potnum - 4 + i)
-            mousey := 38 * i + 410
+            mousey := 38 * i + 270
             if (potmat[potid] != 0) {
                 if (potmat[potid] != 1) {
-                    mmove(510, mousey)
+                    mmove(728, mousey)
                     mclick(True)
                     SendText(potmat[potid])
                 }
-                mmove(567, mousey)
+                mmove(803, mousey)
                 mclick()
             }
             i++
