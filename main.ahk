@@ -6,6 +6,7 @@
 inifile := A_WorkingDir "\config.ini"
 potions := ["1. Godlike Potion", "2. Godly Potion[Zeus]", "3. Godly Potion[Poseidon]", "4. Godly Potion[Hades]", "5. Heavenly Potion", "6. Potion of bound", "7. Diver Potion", "8. Zombie Potion"]
 potwords := ["Godlike", "Godly", "Godly", "Godly", "Heavenly", "Bound", "Diver", "Zombie"]
+items := ["con", "bio"]
 potmat := [
     1, 1, 1, 600,
     25, 25, 1, 0,
@@ -18,7 +19,6 @@ potmat := [
 ]
 ww := 0
 wh := 0
-Autoadd := 0
 moveanim := 2
 interval := 100
 
@@ -29,7 +29,7 @@ interval := 100
 ini_setup(*) {
     if not FileExist(inifile) {
         try {
-            FileAppend("[Crafting]`nAutoadd=1", inifile)
+            FileAppend("[Crafting]`nAutoadd=1`nAutorandomizer=1", inifile)
             MsgBox("初めて起動されたので、`n現在のフォルダにコンフィグファイルを生成しました。", "初回起動", "OK Iconi")
         } catch Any as err {
             errout(err)
@@ -37,6 +37,7 @@ ini_setup(*) {
     }
     try {
         global Autoadd := IniRead(inifile, "Crafting", "Autoadd")
+        global Autorandomizer := IniRead(inifile, "Crafting", "Autorandomizer")
     }
 }
 
@@ -107,6 +108,49 @@ selpot(num:=1) {
 }
 
 /*
+    セットアップ
+*/
+setup(startup:=False) {
+    Send('f')
+    Sleep(1500)
+    if InStr(guistat.pot, "Godly") {
+        selnum := potnum - 1
+        selpot(selnum)
+    } else {
+        selpot()
+    }
+    if (Autoadd == 1 and startup) {
+        mmove(310, 586)
+        mclick()
+    }
+    mmove(156, 585)
+    mclick()
+}
+
+/*
+    自動ランダマイザー使用
+*/
+userandom() {
+    mmove(28, 365)
+    mclick()
+    mmove(905, 240)
+    mclick()
+    local i := 1
+    loop(2) {
+        mmove(785, 262)
+        mclick()
+        SendText(items[i])
+        mmove(606, 341)
+        mclick()
+        mmove(486, 412)
+        mclick()
+        i++
+    }
+    mmove(28, 365)
+    mclick()
+}
+
+/*
     メインスクリプト、ループ
 */
 main(*) {
@@ -115,6 +159,7 @@ main(*) {
     guistat := mgui.Submit(False)
     mgui.Minimize()
     IniWrite(guistat.Autoadd, inifile, "Crafting", "Autoadd")
+    IniWrite(guistat.Autorandomizer, inifile, "Crafting", "Autorandomizer")
     SendMode("Event")
 
     ; config取得
@@ -131,21 +176,7 @@ main(*) {
     if (ww != A_ScreenWidth or wh != A_ScreenHeight) {
         Send('{F11}')
     }
-    Send('f')
-    Sleep(1500)
-    if InStr(guistat.pot, "Godly") {
-        selnum := potnum - 1
-        selpot(selnum)
-    } else {
-        selpot()
-    }
-    
-    if (Autoadd == 1) {
-        mmove(310, 586)
-        mclick()
-    }
-    mmove(156, 585)
-    mclick()
+    setup(True)
 
     ; メインループ
     loop {
@@ -165,6 +196,21 @@ main(*) {
                 mclick()
             }
             i++
+        }
+        if (Autorandomizer == 1) {
+            loop(3) {
+                mmove(1163, 190)
+                mclick(True)
+                Send('{Delete}')
+                Sleep(interval)
+                Send('{Enter}')
+                Sleep(interval)
+            }
+            mmove(1317, 128)
+            mclick()
+            Sleep(1500)
+            userandom()
+            setup()
         }
     }
 }
@@ -193,6 +239,11 @@ main_gui(*) {
         mgui.Add("Checkbox", "vAutoadd Checked", "Reset auto add")
     } else {
         mgui.Add("Checkbox", "vAutoadd", "Reset auto add")
+    }
+    if (Autorandomizer == 1) {
+        mgui.Add("Checkbox", "vAutorandomizer Checked", "Auto Randomizer")
+    } else {
+        mgui.Add("Checkbox", "vAutorandomizer", "Auto Randomizer")
     }
     Submit := mgui.Add("Button", "xm", "Start").OnEvent("Click", main)
     Exit := mgui.Add("Button", "x+2", "Exit").OnEvent("Click", exitscript)
