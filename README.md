@@ -4,7 +4,13 @@ This macro is an automatic potion crafting macro for Sol's RNG.
 > [!Warning]
 > マクロの改造はご自由にしてもらって構いませんが、**「自分で作った」などの自作発言はお控えください**\
 > You are free to modify the macros as you wish, but please refrain from making your own statements such as "**I made it myself**".\
+
 I translated it from [DeepL](https://deepl.com) because I am not good at English!
+
+## ロードマップ / Roadmaps
+- [x] ランダマイザー使用のオプション追加
+- [ ] Godly Potionのループ作成の追加
+- [ ] マクロで追加する素材を選択可に変更
 
 ## 動作環境 / Operating environment
 - Windows 10/11
@@ -32,4 +38,4 @@ In the window that launches, select the potion and options to craft,\
 Enter `F1` to start automatic crafting of potions.\
 \
 `F2`を入力するとマクロを停止できます。\
-Enter `F2` to stop the macro.\
+Enter `F2` to stop the macro.
