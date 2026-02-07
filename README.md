@@ -14,8 +14,8 @@ Download `pot-macro.exe` from [Here](https://github.com/KeipamuJP/Sol-rng.Potion
 
 # Notes
 > [!Important]
-> This macro has only been tested on 16:9 displays.\
-> Other aspect ratios (such as 4:3 or 16:10) are NOT RECOMMENDED.
+> This macro only works on 16:9 displays.\
+> Other aspect ratios (such as 4:3, 16:10, etc.) are **NOT SUPPORTED**.
 
 ## How to Use
 Stand near the cauldron in Stella's Cave and activate the macro.\
