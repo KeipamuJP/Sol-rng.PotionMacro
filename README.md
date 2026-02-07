@@ -1,6 +1,6 @@
 # Overview
 This macro is an automated potion creation macro for Roblox's Sol's RNG.\
-Download from [Here](https://github.com/KeipamuJP/Sol-rng.PotionMacro/releases)
+Download `pot-macro.exe` from [Here](https://github.com/KeipamuJP/Sol-rng.PotionMacro/releases)
 > [!Warning]
 > Feel free to modify the macros as you like, but please leave the credits visible.
 
