@@ -4,13 +4,13 @@ Download from [Here](https://github.com/KeipamuJP/Sol-rng.PotionMacro/releases)
 > [!Warning]
 > Feel free to modify the macros as you like, but please leave the credits visible.
 
+## System Requirements
+- Windows 10/11
+
 ## Roadmap
 - [x] Add option to use randomizer
 - [ ] Adding Godly Potion Loop Creation
 - [ ] Allow selection of materials to be added via macro
-
-## System Requirements
-- Windows 10/11
 
 # Notes
 > [!Important]
